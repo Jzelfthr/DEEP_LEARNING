@@ -1,4 +1,4 @@
-# The Portfolio of Dane Casiño
+# The Portfolio of Jezzel Faith Gier
 
 Welcome! This site is a dedicated digital portfolio built using **Jupyter Book**.
 

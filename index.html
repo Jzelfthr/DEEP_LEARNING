@@ -6,207 +6,593 @@
   <title>Jezzel Faith Gier — Deep Learning Portfolio</title>
   <meta name="description" content="Portfolio site that surfaces the contents of the DEEP_LEARNING GitHub repo." />
   <style>
-    :root{--accent:#6c63ff;--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2;color-scheme:dark}
-    html,body{height:100%;margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
-    body{background:linear-gradient(180deg,#071026 0%,#071829 100%);color:#e6eef8;line-height:1.5}
-    .container{max-width:1100px;margin:32px auto;padding:24px}
-    header{display:flex;gap:16px;align-items:center}
-    header img{width:68px;height:68px;border-radius:12px;object-fit:cover}
-    nav{margin-left:auto}
-    nav a{color:var(--muted);text-decoration:none;margin-left:16px}
-    h1{margin:6px 0;font-size:28px}
-    p.lead{color:var(--muted);margin-top:0}
-    .hero{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;margin-top:20px}
-    .card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);padding:18px;border-radius:14px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
-    .section{margin-top:20px}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-    .item h3{margin:0 0 6px 0}
-    .meta{font-size:13px;color:var(--muted)}
-    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
-    .btn{display:inline-block;padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--accent),#4a8cff);color:white;text-decoration:none}
-    .small{font-size:13px;color:var(--muted)}
-    pre{white-space:pre-wrap;background:rgba(0,0,0,0.3);padding:10px;border-radius:8px;overflow:auto}
-    /* responsive */
-    @media (max-width:880px){.hero{grid-template-columns:1fr}}
+    :root{
+      --accent:#b0152a;
+      --accent-soft:#fce4e7;
+      --sidebar-bg:#0f172a;
+      --sidebar-border:#1f2937;
+      --text:#111827;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --page-bg:#f9fafb;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+    body{background:var(--page-bg);color:var(--text);line-height:1.6}
+
+    /* Layout similar to Jupyter Book (Dane's page) */
+    .layout{
+      display:grid;
+      grid-template-columns:260px minmax(0,1fr) 220px;
+      min-height:100vh;
+    }
+
+    /* LEFT SIDEBAR */
+    .sidebar{
+      background:var(--sidebar-bg);
+      color:#e5e7eb;
+      border-right:1px solid var(--sidebar-border);
+      padding:20px 18px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:auto;
+    }
+    .sidebar-logo{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .sidebar-logo img{
+      width:64px;
+      height:64px;
+      object-fit:cover;
+      border-radius:12px;
+      background:#fdf2f3;
+      padding:4px;
+    }
+    .sidebar-title{
+      font-size:14px;
+      font-weight:600;
+      letter-spacing:.03em;
+      text-transform:uppercase;
+    }
+    .sidebar-subtitle{
+      font-size:13px;
+      color:#9ca3af;
+    }
+    .sidebar-section-title{
+      margin:16px 0 6px;
+      font-size:13px;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      color:#9ca3af;
+    }
+    .sidebar-nav{
+      list-style:none;
+      padding:0;
+      margin:0;
+      font-size:14px;
+    }
+    .sidebar-nav li{margin:2px 0}
+    .sidebar-nav a{
+      color:#e5e7eb;
+      text-decoration:none;
+      padding:4px 0;
+      display:block;
+    }
+    .sidebar-nav a:hover{
+      color:#ffffff;
+      text-decoration:underline;
+    }
+
+    /* MAIN CONTENT */
+    main{
+      padding:28px 32px 40px;
+    }
+    h1{
+      font-size:32px;
+      margin:0 0 4px;
+    }
+    .lead{
+      margin-top:4px;
+      color:var(--muted);
+      max-width:700px;
+    }
+    .pill{
+      display:inline-block;
+      padding:2px 8px;
+      border-radius:999px;
+      font-size:12px;
+      background:var(--accent-soft);
+      color:var(--accent);
+      margin-bottom:8px;
+    }
+    .section{
+      margin-top:28px;
+    }
+    .section h2{
+      font-size:22px;
+      margin:0 0 6px;
+    }
+    .section p{margin:4px 0 0;}
+
+    .card{
+      background:var(--card);
+      border:1px solid #e5e7eb;
+      border-radius:10px;
+      padding:16px 18px;
+      box-shadow:0 1px 3px rgba(15,23,42,.08);
+    }
+
+    /* What you will find list */
+    .bullet-list{
+      margin-top:8px;
+      padding-left:20px;
+    }
+    .bullet-list li{margin:4px 0;}
+
+    /* Repo viewer area */
+    .repo-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+      gap:18px;
+      align-items:flex-start;
+    }
+    .meta{font-size:13px;color:var(--muted);}
+    .small{font-size:13px;color:var(--muted);}
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+    }
+    .item-title{margin:0 0 4px;font-weight:600;}
+    .item-path{font-size:12px;color:var(--muted);}
+
+    .btn{
+      display:inline-block;
+      margin-top:10px;
+      padding:7px 12px;
+      border-radius:999px;
+      background:var(--accent);
+      color:white;
+      font-size:13px;
+      text-decoration:none;
+    }
+    .btn:hover{opacity:.9;}
+
+    pre{
+      white-space:pre-wrap;
+      background:#111827;
+      color:#e5e7eb;
+      padding:10px;
+      border-radius:6px;
+      font-size:12px;
+      overflow:auto;
+    }
+
+    /* Lectures / sections lists */
+    .link-list{
+      list-style:none;
+      padding:0;
+      margin:8px 0 0;
+      font-size:14px;
+    }
+    .link-list li{margin:3px 0;}
+    .link-list a{
+      color:#1d4ed8;
+      text-decoration:none;
+    }
+    .link-list a:hover{text-decoration:underline;}
+
+    /* RIGHT CONTENTS COLUMN */
+    .toc{
+      border-left:1px solid #e5e7eb;
+      padding:24px 18px;
+      font-size:13px;
+      background:#f9fafb;
+      position:sticky;
+      top:0;
+      height:100vh;
+      overflow:auto;
+    }
+    .toc h3{
+      margin-top:0;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--muted);
+    }
+    .toc ul{
+      list-style:none;
+      padding-left:0;
+      margin:8px 0 0;
+    }
+    .toc li{margin:3px 0;}
+    .toc a{
+      color:#111827;
+      text-decoration:none;
+    }
+    .toc a:hover{text-decoration:underline;}
+
+    footer{
+      margin-top:32px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width:1024px){
+      .layout{
+        grid-template-columns:220px minmax(0,1fr);
+      }
+      .toc{display:none;}
+    }
+    @media (max-width:768px){
+      .layout{
+        grid-template-columns:1fr;
+      }
+      .sidebar{
+        position:relative;
+        height:auto;
+        flex-direction:row;
+        align-items:flex-start;
+        gap:16px;
+      }
+      .sidebar-logo{flex:1;}
+      .sidebar-sections{flex:1;}
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <img src="https://raw.githubusercontent.com/Jzelfthr/DEEP_LEARNING/main/logo.png" alt="logo" onerror="this.style.display='none'"/>
+<div class="layout">
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <!-- place logo.png in same folder or adjust src -->
+      <img src="https://raw.githubusercontent.com/Jzelfthr/DEEP_LEARNING/main/logo.png"
+           alt="JFG Deep Learning Portfolio Logo"
+           onerror="this.src='logo.png'">
       <div>
-        <h1>Jezzel Faith Gier</h1>
-        <div class="small">Deep Learning • Data Science • Teaching materials</div>
-        <p class="lead">This portfolio dynamically displays contents from the <a class="small" href="https://github.com/Jzelfthr/DEEP_LEARNING" target="_blank">DEEP_LEARNING</a> repository so you can browse lectures, labs, blog posts and exercises.</p>
+        <div class="sidebar-title">JFG Portfolio</div>
+        <div class="sidebar-subtitle">Deep Learning • Jupyter Book style</div>
       </div>
-      <nav>
-        <a href="#projects">Repo contents</a>
-        <a href="#blog">Blog</a>
-        <a href="#about">About</a>
-      </nav>
-    </header>
+    </div>
 
-    <section class="hero">
-      <div class="card">
-        <h2>Live repo viewer</h2>
-        <p class="small">This page uses the GitHub REST API to list folders and preview markdown notebooks and lecture notes from your repository. Click any folder card to see its files. The content is pulled at runtime — no build step required.</p>
+    <div class="sidebar-sections">
+      <div class="sidebar-section-title">This Page</div>
+      <ul class="sidebar-nav">
+        <li><a href="#top">Overview</a></li>
+        <li><a href="#what-you-will-find">What you will find</a></li>
+        <li><a href="#repo-viewer">Live repo viewer</a></li>
+        <li><a href="#lectures">Lectures</a></li>
+        <li><a href="#labs">Labs</a></li>
+        <li><a href="#exercises">Exercises</a></li>
+        <li><a href="#group-activities">Group activities</a></li>
+        <li><a href="#blog">Blog posts</a></li>
+        <li><a href="#about">About this portfolio</a></li>
+      </ul>
+    </div>
+  </aside>
 
-        <div class="section">
-          <h3>Repository</h3>
-          <div id="repo-info" class="small meta">Loading repo info…</div>
-        </div>
+  <!-- MAIN CONTENT -->
+  <main id="top">
+    <span class="pill">Deep Learning Portfolio</span>
+    <h1>The Deep Learning Portfolio of Jezzel Faith Gier</h1>
+    <p class="lead">
+      Welcome! This page gives a structured, interactive overview of my work in
+      deep learning. It reads a public GitHub repo
+      (<a href="https://github.com/Jzelfthr/DEEP_LEARNING" target="_blank">DEEP_LEARNING</a>)
+      and surfaces lectures, labs, exercises, and reflections in a Jupyter-Book-style layout.
+    </p>
 
-        <div class="section">
-          <h3>Contents</h3>
-          <div id="folders" class="grid"></div>
-        </div>
-      </div>
-
-      <aside class="card">
-        <h3>Quick preview</h3>
-        <div id="preview" class="small">Select a folder or file to preview its README/intro. Markdown is rendered simply — images and links will point to GitHub.</div>
-        <div style="margin-top:12px">
-          <a id="open-repo" class="btn" href="https://github.com/Jzelfthr/DEEP_LEARNING" target="_blank">Open on GitHub</a>
-        </div>
-      </aside>
+    <section id="what-you-will-find" class="section">
+      <h2>What You Will Find</h2>
+      <ul class="bullet-list">
+        <li><strong>Detailed project narratives</strong> – the <em>why</em> and <em>how</em> behind key notebooks and activities.</li>
+        <li><strong>Technical demonstrations</strong> – code, outputs, and visual results in an accessible format.</li>
+        <li><strong>Skills in action</strong> – practical use of core deep learning concepts and tools.</li>
+      </ul>
+      <p class="small">Use the navigation on the left or the contents panel on the right to jump to specific sections.</p>
     </section>
 
-    <section id="projects" class="section">
-      <h2>Repo folders</h2>
-      <div id="folder-list" class="grid"></div>
+    <section id="repo-viewer" class="section">
+      <h2>Live repo viewer</h2>
+      <div class="repo-layout">
+        <div class="card">
+          <p class="small">
+            This viewer uses the GitHub REST API to list folders and preview markdown files
+            from the <code>DEEP_LEARNING</code> repository. Click any folder card to see
+            its files and a quick markdown preview.
+          </p>
+
+          <div class="section">
+            <h3>Repository</h3>
+            <div id="repo-info" class="meta">Loading repository information…</div>
+          </div>
+
+          <div class="section">
+            <h3>Top-level folders</h3>
+            <div id="folders" class="grid"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Quick preview</h3>
+          <div id="preview" class="small">
+            Select a folder to see a README, intro, or markdown file preview.
+          </div>
+          <a id="open-repo" class="btn" href="https://github.com/Jzelfthr/DEEP_LEARNING" target="_blank">
+            Open repository on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="lectures" class="section">
+      <h2>Lectures</h2>
+      <p class="small">Auto-generated from the <code>lectures/</code> folder in the repository.</p>
+      <div class="card">
+        <ul id="lectures-list" class="link-list">
+          <li class="small">Loading lectures…</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="labs" class="section">
+      <h2>Labs</h2>
+      <p class="small">Hands-on experiments from the <code>labs/</code> folder.</p>
+      <div class="card">
+        <ul id="labs-list" class="link-list">
+          <li class="small">Loading labs…</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="exercises" class="section">
+      <h2>Exercises</h2>
+      <p class="small">Practice problems and solutions from <code>exercises/</code>.</p>
+      <div class="card">
+        <ul id="ex-list" class="link-list">
+          <li class="small">Loading exercises…</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="group-activities" class="section">
+      <h2>Group activities</h2>
+      <p class="small">Collaborative work (if present) from <code>group-activities/</code>.</p>
+      <div class="card">
+        <ul id="group-list" class="link-list">
+          <li class="small">Loading group activities…</li>
+        </ul>
+      </div>
     </section>
 
     <section id="blog" class="section">
       <h2>Blog posts</h2>
-      <div id="blog-list" class="grid"></div>
+      <p class="small">Short reflections and write-ups from the <code>Blog_Post/</code> folder.</p>
+      <div class="card">
+        <div id="blog-list" class="grid">
+          <div class="small">Loading blog posts…</div>
+        </div>
+      </div>
     </section>
 
     <section id="about" class="section card">
-      <h2>About this page</h2>
-      <p class="small">How it works: the page calls the public GitHub API to fetch the repository tree. For each folder found (for example: <code>lectures</code>, <code>labs</code>, <code>Blog_Post</code>) it lists files and attempts to render README or intro markdown for quick preview. When deployed to GitHub Pages the site will work without any server-side code.</p>
-      <h3>Deploy</h3>
-      <ol class="small">
-        <li>Save this file as <code>index.html</code> in a new branch or in <code>gh-pages</code>.</li>
-        <li>Enable GitHub Pages from repository Settings &gt; Pages, choose the branch containing this file.</li>
-        <li>Open the published URL (GitHub will give you the link). The page will fetch data from GitHub at runtime.</li>
-      </ol>
-      <h3>Notes</h3>
-      <ul class="small">
-        <li>Large files (notebooks) are not fully rendered — for heavy content the page links to the raw GitHub file or notebook viewer.</li>
-        <li>If your repo is private you must provide a token; this page assumes the repo is public.</li>
-      </ul>
+      <h2>About this portfolio</h2>
+      <p class="small">
+        This HTML page is completely static and works purely in the browser. When hosted on GitHub Pages,
+        it calls the public GitHub API to fetch directory listings and markdown files from
+        <code>Jzelfthr/DEEP_LEARNING</code>. No server-side code or build step is required.
+      </p>
+      <p class="small">
+        For large notebooks, the page links out to GitHub’s viewer instead of rendering everything here.
+        If the repository remains public, the viewer will keep working with future commits.
+      </p>
     </section>
 
     <footer>
-      Built for <strong>DEEP_LEARNING</strong> — <span id="last-updated">checking latest commit…</span>
+      Built for <strong>DEEP_LEARNING</strong> —
+      <span id="last-updated">checking latest commit…</span>
     </footer>
-  </div>
+  </main>
 
-  <script>
-    const owner = 'Jzelfthr';
-    const repo = 'DEEP_LEARNING';
-    const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents`;
+  <!-- RIGHT CONTENTS COLUMN -->
+  <aside class="toc">
+    <h3>Contents</h3>
+    <ul id="toc-list">
+      <!-- auto-filled from JS -->
+    </ul>
+  </aside>
+</div>
 
-    async function fetchJson(url) {
-      const res = await fetch(url);
-      if(!res.ok) throw new Error('HTTP '+res.status);
-      return res.json();
-    }
+<script>
+  const owner = 'Jzelfthr';
+  const repo  = 'DEEP_LEARNING';
+  const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents`;
 
-    async function loadRepo() {
-      try{
-        const root = await fetchJson(apiBase);
-        document.getElementById('repo-info').innerText = `${repo} — ${root.length} items (top-level)`;
-        const folders = root.filter(f=>f.type==='dir');
-        renderFolders(folders);
-        renderFolderList(folders);
-        // last commit: use git/commits via another endpoint
-        const commits = await fetchJson(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=1`);
-        document.getElementById('last-updated').innerText = `Latest commit on ${new Date(commits[0].commit.author.date).toLocaleString()}`;
-      }catch(e){
-        document.getElementById('repo-info').innerText = 'Could not load repo. ' + e.message;
+  async function fetchJson(url){
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    return res.json();
+  }
+
+  // Build TOC on the right side
+  function buildToc(availableFolders){
+    const toc = document.getElementById('toc-list');
+    toc.innerHTML = '';
+    const baseSections = [
+      {id:'what-you-will-find', label:'What you will find'},
+      {id:'repo-viewer',        label:'Live repo viewer'},
+      {id:'lectures',           label:'Lectures'},
+      {id:'labs',               label:'Labs'},
+      {id:'exercises',          label:'Exercises'},
+      {id:'group-activities',   label:'Group activities'},
+      {id:'blog',               label:'Blog posts'},
+      {id:'about',              label:'About this portfolio'}
+    ];
+    baseSections.forEach(sec=>{
+      // only show lecture/lab/exercise/group/blog if their folder exists
+      if(['lectures','labs','exercises','group-activities','Blog_Post'].includes(sec.id)){
+        const exists = availableFolders.some(f => {
+          if(sec.id === 'group-activities') return f.name === 'group-activities';
+          if(sec.id === 'Blog_Post') return f.name === 'Blog_Post';
+          return f.name === sec.id;
+        });
+        if(!exists) return;
       }
-    }
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="#${sec.id}">${sec.label}</a>`;
+      toc.appendChild(li);
+    });
+  }
 
-    function renderFolders(folders){
-      const el = document.getElementById('folders'); el.innerHTML='';
-      folders.forEach(f=>{
-        const div = document.createElement('div'); div.className='item card';
-        div.innerHTML = `<h3>${f.name}</h3><div class="meta">${f.path}</div><p class="small">Click to explore</p>`;
-        div.style.cursor='pointer';
-        div.onclick = ()=>openFolder(f.path);
-        el.appendChild(div);
-      });
-    }
+  async function loadRepo(){
+    try{
+      const root = await fetchJson(apiBase);
+      document.getElementById('repo-info').innerText =
+        `${repo} — ${root.length} items at the top level.`;
 
-    async function openFolder(path){
+      const folders = root.filter(f => f.type === 'dir');
+      renderFolders(folders);
+      buildToc(folders);
+
+      // populate section lists if those folders exist
+      if(folders.find(f => f.name === 'lectures')) loadFolderList('lectures','lectures-list');
+      else document.getElementById('lectures-list').innerHTML = '<li class="small">No lectures folder found.</li>';
+
+      if(folders.find(f => f.name === 'labs')) loadFolderList('labs','labs-list');
+      else document.getElementById('labs-list').innerHTML = '<li class="small">No labs folder found.</li>';
+
+      if(folders.find(f => f.name === 'exercises')) loadFolderList('exercises','ex-list');
+      else document.getElementById('ex-list').innerHTML = '<li class="small">No exercises folder found.</li>';
+
+      if(folders.find(f => f.name === 'group-activities')) loadFolderList('group-activities','group-list');
+      else document.getElementById('group-list').innerHTML = '<li class="small">No group-activities folder found.</li>';
+
+      // last commit info
+      const commits = await fetchJson(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=1`);
+      document.getElementById('last-updated').innerText =
+        `latest commit on ${new Date(commits[0].commit.author.date).toLocaleString()}`;
+    }catch(e){
+      document.getElementById('repo-info').innerText =
+        'Could not load repository data: ' + e.message;
+    }
+  }
+
+  function renderFolders(folders){
+    const el = document.getElementById('folders');
+    el.innerHTML = '';
+    folders.forEach(f => {
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.style.cursor = 'pointer';
+      div.innerHTML = `
+        <div class="item-title">${f.name}</div>
+        <div class="item-path">${f.path}</div>
+        <div class="small">Click to explore this folder.</div>`;
+      div.onclick = () => openFolder(f.path);
+      el.appendChild(div);
+    });
+  }
+
+  async function openFolder(path){
+    try{
       const list = await fetchJson(`${apiBase}/${path}`);
-      const mdFile = list.find(x=>/readme|intro|\.md$/i.test(x.name)) || list[0];
+      const mdFile = list.find(x => /readme|intro|\.md$/i.test(x.name)) || list[0];
       if(mdFile){
-        if(mdFile.type==='file' && /\.md$/.test(mdFile.name)){
+        if(mdFile.type === 'file' && /\.md$/i.test(mdFile.name)){
           const raw = await fetchJson(mdFile.url);
           const markdown = atob(raw.content.replace(/\n/g,''));
-          showPreview(renderMarkdown(markdown), mdFile.html_url);
-        } else {
-          // not markdown — show link list
-          const html = '<ul>' + list.map(x=>`<li><a href="${x.html_url}" target="_blank">${x.name}</a> — ${x.type}</li>`).join('') + '</ul>';
-          showPreview(html);
+          const html = renderMarkdown(markdown);
+          showPreview(html, mdFile.html_url);
+        }else{
+          const htmlList = '<ul>' + list.map(x =>
+            `<li><a href="${x.html_url}" target="_blank">${x.name}</a> — ${x.type}</li>`
+          ).join('') + '</ul>';
+          showPreview(htmlList, `https://github.com/${owner}/${repo}/tree/main/${path}`);
         }
       }
-      // also populate folder-list with files
-      renderFolderFiles(path, list);
+    }catch(e){
+      showPreview(`<p class="small">Could not open folder <code>${path}</code>: ${e.message}</p>`);
     }
+  }
 
-    function renderFolderFiles(path, list){
-      const el = document.getElementById('folder-list');
-      // create a column card for this folder
-      const card = document.createElement('div'); card.className='card item';
-      card.innerHTML = `<h3>${path}</h3><div class="meta">${list.length} items</div><div class="small"><ul>${list.map(x=>`<li><a href=\"${x.html_url}\" target=\"_blank\">${x.name}</a> — ${x.type}</li>`).join('')}</ul></div>`;
-      el.prepend(card);
-    }
-
-    function showPreview(html, link){
-      const p = document.getElementById('preview');
-      p.innerHTML = html + (link? `<div style="margin-top:10px"><a class="small" href="${link}" target="_blank">Open on GitHub ›</a></div>` : '');
-    }
-
-    // very small markdown renderer for basic headings and code blocks
-    function renderMarkdown(md){
-      // escape html
-      md = md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      // code blocks
-      md = md.replace(/```([\s\S]*?)```/g, (m,code)=>`<pre>${code}</pre>`);
-      // headers
-      md = md.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-      md = md.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-      md = md.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-      // bold/italic
-      md = md.replace(/\*\*(.*?)\*\*/gim,'<strong>$1</strong>');
-      md = md.replace(/\*(.*?)\*/gim,'<em>$1</em>');
-      // links
-      md = md.replace(/\[([^\]]+)\]\(([^\)]+)\)/gim,'<a href="$2" target="_blank">$1</a>');
-      // line breaks -> paragraphs
-      const paragraphs = md.split(/\n\s*\n/).map(p=>`<p class="small">${p.replace(/\n/g,'<br/>')}</p>`).join('');
-      return paragraphs;
-    }
-
-    // list blog posts from Blog_Post folder if present
-    async function loadBlog(){
-      try{
-        const list = await fetchJson(`${apiBase}/Blog_Post`);
-        const blogList = document.getElementById('blog-list'); blogList.innerHTML='';
-        list.forEach(item=>{
-          const div = document.createElement('div'); div.className='card item';
-          div.innerHTML = `<h3>${item.name.replace(/\.md$|\.ipynb$/,'')}</h3><div class="meta">${item.type}</div><p class="small"><a href="${item.html_url}" target="_blank">Open on GitHub</a></p>`;
-          blogList.appendChild(div);
+  async function loadFolderList(folderName, containerId){
+    try{
+      const list = await fetchJson(`${apiBase}/${folderName}`);
+      const ul = document.getElementById(containerId);
+      ul.innerHTML = '';
+      list
+        .filter(item => item.type === 'file')
+        .forEach(item => {
+          const li = document.createElement('li');
+          const cleanName = item.name.replace(/\.(ipynb|md)$/,'');
+          li.innerHTML = `<a href="${item.html_url}" target="_blank">${cleanName}</a>`;
+          ul.appendChild(li);
         });
-      }catch(e){
-        document.getElementById('blog-list').innerHTML = '<div class="small">No Blog_Post folder found or could not load it.</div>';
+      if(!ul.innerHTML){
+        ul.innerHTML = '<li class="small">No files found in this folder.</li>';
       }
+    }catch(e){
+      const ul = document.getElementById(containerId);
+      ul.innerHTML = `<li class="small">Could not load <code>${folderName}</code>: ${e.message}</li>`;
     }
+  }
 
-    // init
-    loadRepo(); loadBlog();
-  </script>
+  function showPreview(html, link){
+    const p = document.getElementById('preview');
+    p.innerHTML = html + (link
+      ? `<div style="margin-top:8px"><a class="small" href="${link}" target="_blank">Open on GitHub ↗</a></div>`
+      : '');
+  }
+
+  // very small markdown renderer: headings, code blocks, emphasis, links
+  function renderMarkdown(md){
+    md = md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    md = md.replace(/```([\s\S]*?)```/g, (m,code)=>`<pre>${code}</pre>`);
+    md = md.replace(/^### (.*)$/gim,'<h3>$1</h3>');
+    md = md.replace(/^## (.*)$/gim,'<h2>$1</h2>');
+    md = md.replace(/^# (.*)$/gim,'<h1>$1</h1>');
+    md = md.replace(/\*\*(.*?)\*\*/gim,'<strong>$1</strong>');
+    md = md.replace(/\*(.*?)\*/gim,'<em>$1</em>');
+    md = md.replace(/\[([^\]]+)\]\(([^)]+)\)/gim,'<a href="$2" target="_blank">$1</a>');
+    const paragraphs = md.split(/\n\s*\n/).map(p =>
+      `<p class="small">${p.replace(/\n/g,'<br/>')}</p>`
+    ).join('');
+    return paragraphs;
+  }
+
+  async function loadBlog(){
+    try{
+      const list = await fetchJson(`${apiBase}/Blog_Post`);
+      const blogList = document.getElementById('blog-list');
+      blogList.innerHTML = '';
+      list.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        const title = item.name.replace(/\.(md|ipynb)$/,'');
+        div.innerHTML = `
+          <div class="item-title">${title}</div>
+          <div class="meta">${item.type}</div>
+          <p class="small"><a href="${item.html_url}" target="_blank">Open on GitHub</a></p>`;
+        blogList.appendChild(div);
+      });
+    }catch(e){
+      document.getElementById('blog-list').innerHTML =
+        '<div class="small">No Blog_Post folder found or could not load it.</div>';
+    }
+  }
+
+  // init
+  loadRepo();
+  loadBlog();
+</script>
 </body>
 </html>

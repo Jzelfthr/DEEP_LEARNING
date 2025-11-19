@@ -180,11 +180,21 @@
       font-size:14px;
     }
     .link-list li{margin:3px 0;}
-    .link-list a{
+
+    .link-button{
+      background:none;
+      border:none;
+      padding:0;
+      margin:0;
       color:#1d4ed8;
-      text-decoration:none;
+      cursor:pointer;
+      font-size:14px;
+      text-align:left;
+      font-family:inherit;
     }
-    .link-list a:hover{text-decoration:underline;}
+    .link-button:hover{
+      text-decoration:underline;
+    }
 
     /* RIGHT CONTENTS COLUMN */
     .toc{
@@ -249,7 +259,6 @@
   <!-- LEFT SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-logo">
-      <!-- your logo; GitHub raw as first option, local logo.png as fallback -->
       <img src="https://raw.githubusercontent.com/Jzelfthr/DEEP_LEARNING/main/logo.png"
            alt="JFG Deep Learning Portfolio Logo"
            onerror="this.src='logo.png'">
@@ -301,9 +310,9 @@
       <div class="repo-layout">
         <div class="card">
           <p class="small">
-            This viewer uses the GitHub REST API to list folders and preview markdown files
-            from the <code>DEEP_LEARNING</code> repository. Click any folder card to see
-            its files and a quick markdown preview.
+            This viewer uses the GitHub REST API to list folders and preview files
+            from the <code>DEEP_LEARNING</code> repository. Click any folder card or item
+            to see a markdown/notebook preview inside this page.
           </p>
 
           <div class="section">
@@ -320,7 +329,7 @@
         <div class="card">
           <h3>Quick preview</h3>
           <div id="preview" class="small">
-            Select a folder to see a README, intro, or markdown file preview.
+            Select a folder or item to see a README, intro, markdown file, or notebook summary.
           </div>
           <a id="open-repo" class="btn"
              href="https://github.com/Jzelfthr/DEEP_LEARNING" target="_blank">
@@ -384,12 +393,12 @@
       <h2>About this portfolio</h2>
       <p class="small">
         This HTML page is completely static and works purely in the browser. When hosted on GitHub Pages,
-        it calls the public GitHub API to fetch directory listings and markdown files from
+        it calls the public GitHub API to fetch directory listings and files from
         <code>Jzelfthr/DEEP_LEARNING</code>. No server-side code or build step is required.
       </p>
       <p class="small">
-        For large notebooks, the page links out to GitHub’s viewer instead of rendering everything here.
-        If the repository remains public, the viewer will keep working with future commits.
+        For notebooks, the viewer shows a summary of markdown cells inside the page and provides a link
+        to the full notebook on GitHub if you want to dive into the code.
       </p>
     </section>
 
@@ -494,7 +503,6 @@
   async function openFolder(path){
     try{
       const list = await fetchJson(`${apiBase}/${path}`);
-      // prefer README/intro/markdown
       const mdFile =
         list.find(x => /readme|intro/i.test(x.name)) ||
         list.find(x => /\.md$/i.test(x.name)) ||
@@ -516,6 +524,60 @@
     }
   }
 
+  async function openFile(path){
+    try{
+      const file = await fetchJson(`${apiBase}/${path}`);
+      if(file.type !== 'file'){
+        showPreview(`<p class="small">This is not a regular file.</p>`);
+        return;
+      }
+
+      const lower = file.name.toLowerCase();
+
+      if(lower.endsWith('.md')){
+        if(!file.download_url){
+          showPreview(`<p class="small">No direct download URL for ${file.name}.</p>`, file.html_url);
+          return;
+        }
+        const res = await fetch(file.download_url);
+        const text = await res.text();
+        const html = renderMarkdown(text);
+        showPreview(html, file.html_url);
+      }else if(lower.endsWith('.ipynb')){
+        if(!file.download_url){
+          showPreview(`<p class="small">Notebook cannot be previewed directly, but you can open it on GitHub.</p>`, file.html_url);
+          return;
+        }
+        const res = await fetch(file.download_url);
+        const nbText = await res.text();
+        let summaryMd = '# Notebook preview\n\n';
+        try{
+          const nb = JSON.parse(nbText);
+          if(Array.isArray(nb.cells)){
+            const mdCells = nb.cells
+              .filter(c => c.cell_type === 'markdown' && Array.isArray(c.source))
+              .map(c => c.source.join(''))
+              .join('\n\n---\n\n');
+            summaryMd += mdCells || '_No markdown cells to display._';
+          }else{
+            summaryMd += '_Could not parse notebook cells._';
+          }
+        }catch(parseErr){
+          summaryMd += '_Could not parse notebook JSON._';
+        }
+        const html = renderMarkdown(summaryMd);
+        showPreview(html, file.html_url);
+      }else{
+        showPreview(
+          `<p class="small">File <code>${file.name}</code> is not a markdown or notebook file, so it is not rendered here. You can open it on GitHub.</p>`,
+          file.html_url
+        );
+      }
+    }catch(e){
+      showPreview(`<p class="small">Could not open file <code>${path}</code>: ${e.message}</p>`);
+    }
+  }
+
   async function loadFolderList(folderName, containerId){
     try{
       const list = await fetchJson(`${apiBase}/${folderName}`);
@@ -526,7 +588,8 @@
         .forEach(item => {
           const li = document.createElement('li');
           const cleanName = item.name.replace(/\.(ipynb|md)$/,'');
-          li.innerHTML = `<a href="${item.html_url}" target="_blank">${cleanName}</a>`;
+          li.innerHTML = `<button type="button" class="link-button">${cleanName}</button>`;
+          li.querySelector('button').onclick = () => openFile(`${folderName}/${item.name}`);
           ul.appendChild(li);
         });
       if(!ul.innerHTML){
@@ -541,7 +604,7 @@
   function showPreview(html, link){
     const p = document.getElementById('preview');
     p.innerHTML = html + (link
-      ? `<div style="margin-top:8px"><a class="small" href="${link}" target="_blank">Open on GitHub ↗</a></div>`
+      ? `<div style="margin-top:8px"><a class="small" href="${link}" target="_blank">Open full file on GitHub ↗</a></div>`
       : '');
   }
 
@@ -573,7 +636,9 @@
         div.innerHTML = `
           <div class="item-title">${title}</div>
           <div class="meta">${item.type}</div>
-          <p class="small"><a href="${item.html_url}" target="_blank">Open on GitHub</a></p>`;
+          <p class="small">Click to preview inside this page.</p>`;
+        div.style.cursor = 'pointer';
+        div.onclick = () => openFile(`Blog_Post/${item.name}`);
         blogList.appendChild(div);
       });
     }catch(e){

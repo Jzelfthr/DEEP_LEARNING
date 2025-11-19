@@ -1,34 +1,38 @@
+# _config.yml
+################################################################################
 # Book settings
-# Learn more at https://jupyterbook.org/customize/config.html
+################################################################################
+title    : JFG Deep Learning Portfolio
+author   : JFG
+logo     : logo.png
+copyright: "2025"
 
-title: My JupyterBook
-author: Dane Casey C Casino
-logo: logo.png
-
-# Force re-execution of notebooks on each build.
-# See https://jupyterbook.org/content/execute.html
-execute:
-  execute_notebooks: force
-  timeout: -1
-
-# Define the name of the latex output file for PDF builds
-latex:
-  latex_documents:
-    targetname: book.tex
-
-# Add a bibtex file so that we can create citations
-bibtex_bibfiles:
-  - references.bib
-
-# Information about where the book exists on the web
+################################################################################
+# Repository / GitHub Pages integration
+################################################################################
 repository:
-  url: https://github.com/Danecash/my-jupyter-book  # ← Change to YOUR repository
-  path_to_book: book  # ← Change from 'docs' to 'book'
-  branch: main  # ← Change from 'master' to 'main'
+  url         : https://github.com/Jzelfthr/DEEP_LEARNING
+  path_to_book: ""          # book is at repo root
+  branch      : main
 
-# Add GitHub buttons to your book
-# See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
-  baseurl: /my-jupyter-book  # ← ADD THIS LINE - must match your repository name
-  use_issues_button: true
-  use_repository_button: true
+  baseurl                : https://jzelfthr.github.io/DEEP_LEARNING/
+  use_repository_button  : true
+  use_issues_button      : true
+  use_edit_page_button   : true
+
+################################################################################
+# Execution (you can turn this to "auto" if you want notebooks to re-run)
+################################################################################
+execute:
+  execute_notebooks: "off"
+
+################################################################################
+# Theme tweaks so it looks like the Dane Casino example
+################################################################################
+sphinx:
+  config:
+    html_theme_options:
+      logo_only        : true          # show logo + title in sidebar
+      home_page_in_toc : true
+      show_navbar_depth: 1            # clean left nav

@@ -1,31 +1,30 @@
 format: jb-book
-root: intro.md
+root: intro  # this is intro.md
 
-parts:
-  - caption: Lectures
-    chapters:
-      - file: lectures/lesson1/lesson1
-      - file: lectures/lesson2/lesson2
-      - file: lectures/lesson3/lesson3
-      - file: lectures/lesson4/lesson4
-      - file: lectures/lesson5/lesson5
-      - file: lectures/lesson6/lesson6
-  - caption: Exercises
-    chapters:
-      - file: exercises/exercise-1-python-basics
-  - caption: Labs
-    chapters:
-      - file: labs/Laboratory Activty 1
-      - file: labs/Laboratory Activty 2
-      - file: labs/Laboratory Activity 3
-      - file: labs/Laboratory Activity 4
-      - file: labs/lab-5-pytorch-intro
-      - file: labs/Laboratory_Activty
-      - file: labs/Lab Activity 201
-  - caption: Group Projects
-    chapters:
-      - file: group-activities/resources
-      - file: group-activities/temporal
-  - caption: Deep Learning Blog Post
-    chapters:
-      - file: Blog_Post/homework_201
+chapters:
+  - file: lectures/index  # or a specific lecture notebook
+    sections:
+      - file: lectures/lecture1
+      - file: lectures/lecture2
+      # ...
+
+  - file: labs/index
+    sections:
+      - file: labs/lab1
+      - file: labs/lab2
+      # ...
+
+  - file: exercises/index
+    sections:
+      - file: exercises/ex1
+      - file: exercises/ex2
+
+  - file: group-activities/index
+    sections:
+      - file: group-activities/group1
+      - file: group-activities/group2
+
+  - file: Blog_Post/index
+    sections:
+      - file: Blog_Post/post1
+      - file: Blog_Post/post2

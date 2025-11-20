@@ -19,6 +19,18 @@
       --pill-bg:#e5e7eb;
       --shadow-soft:0 18px 45px rgba(15,23,42,.18);
     }
+
+    /* Dark theme override */
+    body.theme-dark{
+      --page-bg:#020617;
+      --card:#020617;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --sidebar-bg:#000000;
+      --sidebar-border:#111827;
+      --pill-bg:#0f172a;
+    }
+
     *{box-sizing:border-box}
     html,body{
       margin:0;
@@ -30,6 +42,61 @@
       background:radial-gradient(circle at top left,#fee2e2 0,#f3f4f6 40%,#e5e7eb 100%);
       color:var(--text);
       line-height:1.7;
+      transition:background .2s ease,color .2s ease;
+    }
+    body.theme-dark{
+      background:#020617;
+    }
+
+    /* TOP BAR */
+    .topbar{
+      background:#005f4f;
+      color:#f9fafb;
+      box-shadow:0 2px 4px rgba(15,23,42,.35);
+      position:sticky;
+      top:0;
+      z-index:30;
+    }
+    .topbar-inner{
+      max-width:1320px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:6px 16px;
+      font-size:14px;
+    }
+    .topbar-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .topbar-title{
+      font-weight:500;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      font-size:12px;
+      opacity:.9;
+    }
+    .icon-button{
+      background:none;
+      border:none;
+      color:inherit;
+      cursor:pointer;
+      padding:4px 6px;
+      border-radius:6px;
+      font-size:16px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .icon-button:hover{
+      background:rgba(15,23,42,.25);
+    }
+    .topbar-actions{
+      display:flex;
+      align-items:center;
+      gap:4px;
     }
 
     .layout{
@@ -40,6 +107,23 @@
       margin:0 auto;
     }
 
+    /* Hide sidebars when toggled */
+    body.sidebar-hidden .sidebar{
+      display:none;
+    }
+    body.sidebar-hidden .layout{
+      grid-template-columns:minmax(0,1fr) 230px;
+    }
+    body.toc-hidden .toc{
+      display:none;
+    }
+    body.toc-hidden .layout{
+      grid-template-columns:260px minmax(0,1fr);
+    }
+    body.sidebar-hidden.toc-hidden .layout{
+      grid-template-columns:minmax(0,1fr);
+    }
+
     /* LEFT SIDEBAR */
     .sidebar{
       background:var(--sidebar-bg);
@@ -48,24 +132,26 @@
       padding:22px 20px 26px;
       display:flex;
       flex-direction:column;
-      gap:22px;
+      gap:18px;
       position:sticky;
-      top:0;
-      height:100vh;
+      top:38px; /* under topbar */
+      height:calc(100vh - 38px);
       overflow:auto;
     }
     .sidebar-logo{
       display:flex;
+      flex-direction:column;
       align-items:center;
-      gap:12px;
+      text-align:center;
+      gap:8px;
     }
     .sidebar-logo img{
       width:64px;
       height:64px;
       object-fit:cover;
-      border-radius:18px;
+      border-radius:50%;
       background:#fef2f2;
-      padding:5px;
+      padding:4px;
       box-shadow:0 8px 22px rgba(0,0,0,.45);
     }
     .sidebar-title{
@@ -77,11 +163,11 @@
     .sidebar-subtitle{
       font-size:13px;
       color:#9ca3af;
-      margin-top:4px;
+      margin-top:2px;
     }
 
     .sidebar-section-title{
-      margin:10px 0 6px;
+      margin:14px 0 6px;
       font-size:12px;
       font-weight:600;
       text-transform:uppercase;
@@ -116,9 +202,63 @@
       text-decoration:underline;
     }
 
+    /* Sidebar search */
+    .sidebar-search{
+      margin-top:8px;
+    }
+    .sidebar-search input{
+      width:100%;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid #4b5563;
+      background:#020617;
+      color:#e5e7eb;
+      font-size:13px;
+      outline:none;
+    }
+    .sidebar-search input::placeholder{
+      color:#6b7280;
+    }
+    .sidebar-search-results{
+      margin-top:8px;
+      font-size:13px;
+      max-height:180px;
+      overflow:auto;
+    }
+    .sidebar-search-item{
+      width:100%;
+      text-align:left;
+      background:none;
+      border:none;
+      padding:4px 4px;
+      margin-bottom:2px;
+      border-radius:6px;
+      color:#e5e7eb;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:6px;
+    }
+    .sidebar-search-item:hover{
+      background:rgba(148,163,184,.25);
+    }
+    .sidebar-search-kind{
+      font-size:10px;
+      padding:1px 6px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.7);
+      color:#d1d5db;
+      white-space:nowrap;
+    }
+    .sidebar-search-empty{
+      color:#9ca3af;
+      font-size:12px;
+    }
+
     /* MAIN CONTENT */
     main{
-      padding:30px 32px 42px;
+      padding:24px 32px 42px;
     }
     .pill{
       display:inline-flex;
@@ -390,8 +530,8 @@
       font-size:13px;
       background:linear-gradient(to bottom,#f9fafb,#f3f4f6);
       position:sticky;
-      top:0;
-      height:100vh;
+      top:38px;
+      height:calc(100vh - 38px);
       overflow:auto;
     }
     .toc h3{
@@ -427,6 +567,7 @@
       }
       .sidebar{
         position:relative;
+        top:0;
         height:auto;
         flex-direction:row;
         align-items:flex-start;
@@ -444,6 +585,34 @@
   </style>
 </head>
 <body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <button class="icon-button" onclick="toggleSidebar()" title="Toggle navigation">
+        ☰
+      </button>
+      <div class="topbar-title">JFG Deep Learning Portfolio</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-button" onclick="openGithub()" title="Open repository">
+        Ⓖ
+      </button>
+      <button class="icon-button" onclick="downloadZip()" title="Download ZIP">
+        ⭳
+      </button>
+      <button class="icon-button" onclick="toggleFullscreen()" title="Toggle fullscreen">
+        ⛶
+      </button>
+      <button class="icon-button" onclick="toggleTheme()" title="Toggle light/dark">
+        ☾
+      </button>
+      <button class="icon-button" onclick="toggleToc()" title="Toggle contents panel">
+        ☷
+      </button>
+    </div>
+  </div>
+</header>
+
 <div class="layout">
   <!-- LEFT SIDEBAR -->
   <aside class="sidebar">
@@ -455,6 +624,11 @@
         <div class="sidebar-title">JFG Portfolio</div>
         <div class="sidebar-subtitle">Deep Learning · Academic Work</div>
       </div>
+    </div>
+
+    <div class="sidebar-search">
+      <input type="search" id="sidebar-search" placeholder="Search portfolio…" oninput="handleSearch(this.value)">
+      <div id="search-results" class="sidebar-search-results"></div>
     </div>
 
     <div class="sidebar-sections">
@@ -557,7 +731,7 @@
               to preview its markdown or notebook summary here.
             </div>
           </div>
-          <button class="btn" onclick="window.open('https://github.com/Jzelfthr/DEEP_LEARNING','_blank')">
+          <button class="btn" onclick="openGithub()">
             Open repository on GitHub
           </button>
         </div>
@@ -682,6 +856,7 @@
   const owner = 'Jzelfthr';
   const repo  = 'DEEP_LEARNING';
   const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents`;
+  const searchIndex = [];
 
   async function fetchJson(url){
     const res = await fetch(url);
@@ -868,6 +1043,9 @@
             <span class="${chipClass}">${kind}</span>`;
           li.querySelector('button').onclick = () => openFile(`${folderName}/${item.name}`, cleanName);
           ul.appendChild(li);
+
+          // add to search index
+          searchIndex.push({ title: cleanName, path: `${folderName}/${item.name}`, kind });
         });
       if(!ul.innerHTML){
         ul.innerHTML = '<li class="small">No files found in this folder.</li>';
@@ -919,10 +1097,59 @@
           <div class="small" style="margin-top:4px;">Click to preview inside this page.</div>`;
         div.onclick = () => openFile(`Blog_Post/${item.name}`, title);
         blogList.appendChild(div);
+
+        searchIndex.push({ title, path: `Blog_Post/${item.name}`, kind: 'blog' });
       });
     }catch(e){
       document.getElementById('blog-list').innerHTML =
         '<div class="small">No Blog_Post folder found or could not load it.</div>';
+    }
+  }
+
+  /* Search handling */
+  function handleSearch(query){
+    const container = document.getElementById('search-results');
+    query = query.trim().toLowerCase();
+    if(!query){
+      container.innerHTML = '';
+      return;
+    }
+    const results = searchIndex
+      .filter(item => item.title.toLowerCase().includes(query))
+      .slice(0,8);
+    if(!results.length){
+      container.innerHTML = '<div class="sidebar-search-empty">No matches.</div>';
+      return;
+    }
+    container.innerHTML = results.map(item => `
+      <button class="sidebar-search-item" onclick="openFile('${item.path}','${item.title.replace(/'/g,"&#39;")}')">
+        <span>${item.title}</span>
+        <span class="sidebar-search-kind">${item.kind}</span>
+      </button>
+    `).join('');
+  }
+
+  /* Top bar actions */
+  function toggleSidebar(){
+    document.body.classList.toggle('sidebar-hidden');
+  }
+  function toggleToc(){
+    document.body.classList.toggle('toc-hidden');
+  }
+  function openGithub(){
+    window.open(`https://github.com/${owner}/${repo}`, '_blank');
+  }
+  function downloadZip(){
+    window.open(`https://github.com/${owner}/${repo}/archive/refs/heads/main.zip`, '_blank');
+  }
+  function toggleTheme(){
+    document.body.classList.toggle('theme-dark');
+  }
+  function toggleFullscreen(){
+    if(!document.fullscreenElement){
+      document.documentElement.requestFullscreen?.();
+    }else{
+      document.exitFullscreen?.();
     }
   }
 

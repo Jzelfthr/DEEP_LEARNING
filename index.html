@@ -300,9 +300,10 @@
       border:1px solid rgba(148,163,184,.4);
     }
 
+    /* Live repo viewer layout – preview is bigger now */
     .repo-layout{
       display:grid;
-      grid-template-columns:minmax(0,1.2fr) minmax(0,1.05fr);
+      grid-template-columns:minmax(0,0.85fr) minmax(0,1.6fr);
       gap:18px;
       align-items:flex-start;
       margin-top:14px;
@@ -406,10 +407,12 @@
     .preview-body{
       border-radius:12px;border:1px solid rgba(209,213,219,.9);
       background:#f9fafb;padding:10px 12px;
-      max-height:420px;overflow:auto;
+      max-height:700px;          /* bigger preview */
+      min-height:450px;
+      overflow:auto;
     }
     .preview-body iframe{
-      width:100%;height:380px;border:none;border-radius:8px;background:white;
+      width:100%;height:640px;border:none;border-radius:8px;background:white;
     }
 
     footer{
@@ -454,6 +457,8 @@
       .sidebar-sections{flex:1;}
       main{padding:20px 18px 26px;}
       .repo-layout{grid-template-columns:1fr;}
+      .preview-body{max-height:none;height:auto;}
+      .preview-body iframe{height:520px;}
     }
   </style>
 </head>
@@ -519,7 +524,7 @@
     </p>
     <div class="hero-meta">
       <span>Lectures · Labs · Exercises · Group Activities · Blog · HTML pages</span>
-      <span>Everything stays inside this page — no GitHub pages needed</span>
+      <span>Everything stays inside this page — no external viewer needed</span>
     </div>
 
     <section id="what-you-will-find" class="section">
@@ -532,7 +537,7 @@
       </div>
       <p class="small">
         Explore the contents of my deep learning repository without leaving this page.
-        Click any folder, notebook, markdown file, or HTML page and it will open in the preview panel.
+        Click any folder, notebook, markdown file, or HTML page and it will open in the large preview panel below.
       </p>
     </section>
 
@@ -547,8 +552,10 @@
       <div class="repo-layout">
         <div class="card">
           <p class="small">
-            The viewer below uses the GitHub API to list folders and files from the
-            <code>DEEP_LEARNING</code> repository. Select anything to preview it on the right.
+            This viewer uses the GitHub API to list folders and files from the
+            <code>DEEP_LEARNING</code> repository. When you select any lecture, lab,
+            exercise, group activity, blog post, or HTML file, the content is shown
+            in the big panel on the right.
           </p>
 
           <div class="meta-highlight">
@@ -591,7 +598,7 @@
         </div>
         <div class="section-tag">HTML & others</div>
       </div>
-      <p class="small">Files that live directly in the repository root (including your HTML pages).</p>
+      <p class="small">Files that live directly in the repository root (including your exported HTML pages).</p>
       <div class="card">
         <ul id="root-file-list" class="link-list">
           <li class="small">Loading root files…</li>
@@ -718,6 +725,13 @@
   const apiBase = `https://api.github.com/repos/${owner}/${repo}/contents`;
   const searchIndex = [];
 
+  function scrollToPreview(){
+    const section = document.getElementById('repo-viewer');
+    if(section){
+      section.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }
+
   async function fetchJson(url){
     const res = await fetch(url);
     if(!res.ok) throw new Error('HTTP ' + res.status);
@@ -795,7 +809,7 @@
           <span class="folder-badge">folder</span>
         </div>
         <div class="folder-path">${f.path}</div>
-        <div class="small" style="margin-top:4px;">Click to preview a README or markdown file.</div>`;
+        <div class="small" style="margin-top:4px;">Click to preview a README or main file.</div>`;
       div.onclick = () => openFolder(f.path);
       el.appendChild(div);
     });
@@ -804,7 +818,7 @@
   function renderRootFiles(files){
     const ul = document.getElementById('root-file-list');
     ul.innerHTML = '';
-    const ignore = new Set(['index.html','.nojekyll']); // avoid opening itself
+    const ignore = new Set(['index.html','.nojekyll']);
     files.forEach(item => {
       if(ignore.has(item.name)) return;
       const li = document.createElement('li');
@@ -823,18 +837,20 @@
 
   async function openFolder(path){
     try{
+      scrollToPreview();
       const list = await fetchJson(`${apiBase}/${path}`);
-      const mdFile =
+      const mainFile =
+        list.find(x => /index\.html?/i.test(x.name)) ||
         list.find(x => /readme|intro/i.test(x.name)) ||
-        list.find(x => /\.md$/i.test(x.name)) ||
         list.find(x => /\.html?$/i.test(x.name)) ||
+        list.find(x => /\.md$/i.test(x.name)) ||
         null;
 
       document.getElementById('preview-label').textContent = path;
       document.getElementById('preview-path').textContent = 'Folder preview';
 
-      if(mdFile){
-        await openFile(mdFile.path, mdFile.name, true);
+      if(mainFile){
+        await openFile(mainFile.path, mainFile.name, true);
       }else{
         const htmlList = '<ul>' + list.map(x =>
           `<li>${x.name} — ${x.type}</li>`
@@ -848,6 +864,7 @@
 
   async function openFile(path, label, fromFolder){
     try{
+      scrollToPreview();
       const file = await fetchJson(`${apiBase}/${path}`);
       if(file.type !== 'file'){
         showPreview(`<p class="small">This is not a regular file.</p>`);
@@ -902,7 +919,7 @@
         const res = await fetch(file.download_url);
         const htmlText = await res.text();
         const iframe = document.createElement('iframe');
-        iframe.srcdoc = htmlText;
+        iframe.srcdoc = htmlText;           // only the HTML is visible
         const wrapper = document.createElement('div');
         wrapper.appendChild(iframe);
         const bodyElem = document.getElementById('preview-body');

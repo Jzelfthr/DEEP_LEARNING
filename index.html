@@ -19,7 +19,6 @@
       --pill-bg:#e5e7eb;
       --shadow-soft:0 18px 45px rgba(15,23,42,.18);
     }
-    /* Dark theme */
     body.theme-dark{
       --page-bg:#020617;
       --card:#020617;
@@ -450,10 +449,8 @@
       .layout{grid-template-columns:1fr;max-width:100%;}
       .sidebar{
         position:relative;top:0;height:auto;
-        flex-direction:row;align-items:flex-start;gap:16px;
+        flex-direction:column;align-items:stretch;gap:16px;
       }
-      .sidebar-logo{flex:1;}
-      .sidebar-sections{flex:1;}
       main{padding:20px 18px 26px;}
       .repo-layout{grid-template-columns:1fr;}
       .preview-body{max-height:none;height:auto;}
@@ -499,14 +496,32 @@
       <div class="sidebar-section-title">Sections</div>
       <ul class="sidebar-nav">
         <li><a href="#top">Overview <span>intro</span></a></li>
-        <li><a href="#what-you-will-find">What you will find <span>map</span></a></li>
-        <li><a href="#repo-viewer">Live repo viewer <span>main</span></a></li>
-        <li><a href="#lectures">Lectures <span>html</span></a></li>
-        <li><a href="#labs">Labs <span>html</span></a></li>
-        <li><a href="#exercises">Exercises <span>html</span></a></li>
-        <li><a href="#group-activities">Group work <span>html</span></a></li>
-        <li><a href="#blog">Blog posts <span>html</span></a></li>
-        <li><a href="#about">About <span>details</span></a></li>
+        <li><a href="#repo-viewer">Main viewer <span>screen</span></a></li>
+      </ul>
+
+      <div class="sidebar-section-title">Lectures (HTML)</div>
+      <ul class="sidebar-nav" id="sidebar-lectures">
+        <li class="small" style="color:#9ca3af;">Loading…</li>
+      </ul>
+
+      <div class="sidebar-section-title">Labs (HTML)</div>
+      <ul class="sidebar-nav" id="sidebar-labs">
+        <li class="small" style="color:#9ca3af;">Loading…</li>
+      </ul>
+
+      <div class="sidebar-section-title">Exercises (HTML)</div>
+      <ul class="sidebar-nav" id="sidebar-exercises">
+        <li class="small" style="color:#9ca3af;">Loading…</li>
+      </ul>
+
+      <div class="sidebar-section-title">Group work (HTML)</div>
+      <ul class="sidebar-nav" id="sidebar-groups">
+        <li class="small" style="color:#9ca3af;">Loading…</li>
+      </ul>
+
+      <div class="sidebar-section-title">Blog (HTML)</div>
+      <ul class="sidebar-nav" id="sidebar-blog">
+        <li class="small" style="color:#9ca3af;">Loading…</li>
       </ul>
     </div>
   </aside>
@@ -522,7 +537,7 @@
     </p>
     <div class="hero-meta">
       <span>Lectures · Labs · Exercises · Group Activities · Blog</span>
-      <span>HTML pages only — exported lab & lecture views</span>
+      <span>HTML pages only — exported views</span>
     </div>
 
     <section id="what-you-will-find" class="section">
@@ -535,8 +550,8 @@
       </div>
       <p class="small">
         This portfolio focuses on the HTML exports of my work. When you click any lab, lecture,
-        exercise, group activity, or blog entry, the main viewer below will change and show that
-        page inside this site.
+        exercise, group activity, or blog entry (from the sidebar or from the lists), the big
+        viewer below becomes that page.
       </p>
     </section>
 
@@ -552,8 +567,8 @@
         <div class="card">
           <p class="small">
             This viewer uses the GitHub API to list folders and files from the
-            <code>DEEP_LEARNING</code> repository. When you select any HTML file (lab, lecture,
-            exercise, group work, or blog post), it will open in the large panel on the right.
+            <code>DEEP_LEARNING</code> repository. Whenever you select an HTML file (lab, lecture,
+            exercise, group work, or blog post), it opens in the large panel on the right.
           </p>
 
           <div class="meta-highlight">
@@ -588,7 +603,8 @@
       </div>
     </section>
 
-    <section id="lectures" class="section">
+    <!-- Middle lists (mirror of sidebar, still clickable) -->
+    <section id="lectures-section" class="section">
       <div class="section-header">
         <div>
           <h2>Lectures</h2>
@@ -604,7 +620,7 @@
       </div>
     </section>
 
-    <section id="labs" class="section">
+    <section id="labs-section" class="section">
       <div class="section-header">
         <div>
           <h2>Labs</h2>
@@ -620,7 +636,7 @@
       </div>
     </section>
 
-    <section id="exercises" class="section">
+    <section id="exercises-section" class="section">
       <div class="section-header">
         <div>
           <h2>Exercises</h2>
@@ -636,7 +652,7 @@
       </div>
     </section>
 
-    <section id="group-activities" class="section">
+    <section id="group-activities-section" class="section">
       <div class="section-header">
         <div>
           <h2>Group activities</h2>
@@ -652,7 +668,7 @@
       </div>
     </section>
 
-    <section id="blog" class="section">
+    <section id="blog-section" class="section">
       <div class="section-header">
         <div>
           <h2>Blog posts</h2>
@@ -725,12 +741,12 @@
     toc.innerHTML = '';
     const sections = [
       {id:'what-you-will-find', label:'What you will find'},
-      {id:'repo-viewer',        label:'Live repo viewer'},
-      {id:'lectures',           label:'Lectures',          folder:'lectures'},
-      {id:'labs',               label:'Labs',              folder:'labs'},
-      {id:'exercises',          label:'Exercises',         folder:'exercises'},
-      {id:'group-activities',   label:'Group activities',  folder:'group-activities'},
-      {id:'blog',               label:'Blog posts',        folder:'Blog_Post'},
+      {id:'repo-viewer',        label:'Main viewer'},
+      {id:'lectures-section',   label:'Lectures',          folder:'lectures'},
+      {id:'labs-section',       label:'Labs',              folder:'labs'},
+      {id:'exercises-section',  label:'Exercises',         folder:'exercises'},
+      {id:'group-activities-section', label:'Group activities', folder:'group-activities'},
+      {id:'blog-section',       label:'Blog posts',        folder:'Blog_Post'},
       {id:'about',              label:'About this portfolio'}
     ];
     sections.forEach(sec=>{
@@ -755,16 +771,28 @@
       buildToc(folders);
 
       if(folders.find(f => f.name === 'lectures')) loadFolderList('lectures','lectures-list', 'lecture');
-      else document.getElementById('lectures-list').innerHTML = '<li class="small">No lectures folder found.</li>';
+      else {
+        document.getElementById('lectures-list').innerHTML = '<li class="small">No lectures folder found.</li>';
+        document.getElementById('sidebar-lectures').innerHTML = '<li class="small" style="color:#9ca3af;">No lectures</li>';
+      }
 
       if(folders.find(f => f.name === 'labs')) loadFolderList('labs','labs-list', 'lab');
-      else document.getElementById('labs-list').innerHTML = '<li class="small">No labs folder found.</li>';
+      else {
+        document.getElementById('labs-list').innerHTML = '<li class="small">No labs folder found.</li>';
+        document.getElementById('sidebar-labs').innerHTML = '<li class="small" style="color:#9ca3af;">No labs</li>';
+      }
 
       if(folders.find(f => f.name === 'exercises')) loadFolderList('exercises','ex-list', 'exercise');
-      else document.getElementById('ex-list').innerHTML = '<li class="small">No exercises folder found.</li>';
+      else {
+        document.getElementById('ex-list').innerHTML = '<li class="small">No exercises folder found.</li>';
+        document.getElementById('sidebar-exercises').innerHTML = '<li class="small" style="color:#9ca3af;">No exercises</li>';
+      }
 
       if(folders.find(f => f.name === 'group-activities')) loadFolderList('group-activities','group-list', 'group');
-      else document.getElementById('group-list').innerHTML = '<li class="small">No group-activities folder found.</li>';
+      else {
+        document.getElementById('group-list').innerHTML = '<li class="small">No group-activities folder found.</li>';
+        document.getElementById('sidebar-groups').innerHTML = '<li class="small" style="color:#9ca3af;">No group work</li>';
+      }
 
       const commits = await fetchJson(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=1`);
       document.getElementById('last-updated').innerText =
@@ -836,7 +864,6 @@
       body.innerHTML = '<div id="preview" class="small">Loading…</div>';
 
       if(lower.endsWith('.md')){
-        // Markdown is allowed (not ipynb)
         if(!file.download_url){
           showPreview(`<p class="small">No direct download URL for ${file.name}.</p>`);
           return;
@@ -846,7 +873,6 @@
         const html = renderMarkdown(text);
         showPreview(html);
       }else if(lower.endsWith('.ipynb')){
-        // Do NOT show notebook content, only a message.
         showPreview(
           `<p class="small"><code>${file.name}</code> is a Jupyter notebook (.ipynb). ` +
           `This portfolio only displays the corresponding HTML exports. ` +
@@ -881,33 +907,71 @@
       const list = await fetchJson(`${apiBase}/${folderName}`);
       const ul = document.getElementById(containerId);
       ul.innerHTML = '';
-      list
+
+      const sidebarMap = {
+        'lecture': 'sidebar-lectures',
+        'lab': 'sidebar-labs',
+        'exercise': 'sidebar-exercises',
+        'group': 'sidebar-groups'
+      };
+      const sidebarUl = document.getElementById(sidebarMap[kind] || '');
+
+      if(sidebarUl){ sidebarUl.innerHTML = ''; }
+
+      const htmlFiles = list
         .filter(item => item.type === 'file')
-        .filter(item => /\.html?$/i.test(item.name))   // ONLY HTML files shown
-        .forEach(item => {
-          const li = document.createElement('li');
-          const cleanName = item.name.replace(/\.html?$/,'');
-          let chipClass = 'chip';
-          if(kind === 'lecture') chipClass += ' chip-lecture';
-          else if(kind === 'lab') chipClass += ' chip-lab';
-          else if(kind === 'exercise') chipClass += ' chip-ex';
-          else if(kind === 'group') chipClass += ' chip-group';
+        .filter(item => /\.html?$/i.test(item.name));
 
-          li.innerHTML = `
-            <button type="button" class="link-button">${cleanName}</button>
-            <span class="${chipClass}">${kind}</span>`;
-          li.querySelector('button').onclick = () => openFile(`${folderName}/${item.name}`, cleanName);
-          ul.appendChild(li);
+      htmlFiles.forEach(item => {
+        const cleanName = item.name.replace(/\.html?$/,'');
+        let chipClass = 'chip';
+        if(kind === 'lecture') chipClass += ' chip-lecture';
+        else if(kind === 'lab') chipClass += ' chip-lab';
+        else if(kind === 'exercise') chipClass += ' chip-ex';
+        else if(kind === 'group') chipClass += ' chip-group';
 
-          // only HTML in search index
-          searchIndex.push({ title: cleanName, path: `${folderName}/${item.name}`, kind });
-        });
+        // Middle list
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <button type="button" class="link-button">${cleanName}</button>
+          <span class="${chipClass}">${kind}</span>`;
+        li.querySelector('button').onclick = () => openFile(`${folderName}/${item.name}`, cleanName);
+        ul.appendChild(li);
+
+        // Sidebar list
+        if(sidebarUl){
+          const sLi = document.createElement('li');
+          sLi.innerHTML = `
+            <button type="button" class="link-button" style="color:#e5e7eb;font-size:13px;">
+              ${cleanName}
+            </button>`;
+          sLi.querySelector('button').onclick = () => openFile(`${folderName}/${item.name}`, cleanName);
+          sidebarUl.appendChild(sLi);
+        }
+
+        // Search index (HTML only)
+        searchIndex.push({ title: cleanName, path: `${folderName}/${item.name}`, kind });
+      });
+
       if(!ul.innerHTML){
         ul.innerHTML = '<li class="small">No HTML files found in this folder.</li>';
+      }
+      if(sidebarUl && !sidebarUl.innerHTML){
+        sidebarUl.innerHTML = '<li class="small" style="color:#9ca3af;">No HTML files</li>';
       }
     }catch(e){
       const ul = document.getElementById(containerId);
       ul.innerHTML = `<li class="small">Could not load <code>${folderName}</code>: ${e.message}</li>`;
+      const sidebarMap = {
+        'lecture': 'sidebar-lectures',
+        'lab': 'sidebar-labs',
+        'exercise': 'sidebar-exercises',
+        'group': 'sidebar-groups'
+      };
+      const sidebarUl = document.getElementById(sidebarMap[kind] || '');
+      if(sidebarUl){
+        sidebarUl.innerHTML = '<li class="small" style="color:#9ca3af;">Error loading</li>';
+      }
     }
   }
 
@@ -916,7 +980,7 @@
     bodyElem.innerHTML = `<div id="preview">${html}</div>`;
   }
 
-  /* Simple markdown renderer (for README.md etc.) */
+  // Simple markdown renderer (for README.md etc.)
   function renderMarkdown(md){
     md = md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     md = md.replace(/```([\s\S]*?)```/g,(m,code)=>`<pre>${code}</pre>`);
@@ -937,35 +1001,54 @@
       const list = await fetchJson(`${apiBase}/Blog_Post`);
       const blogList = document.getElementById('blog-list');
       blogList.innerHTML = '';
-      list
+      const sidebarBlog = document.getElementById('sidebar-blog');
+      sidebarBlog.innerHTML = '';
+
+      const htmlFiles = list
         .filter(item => item.type === 'file')
-        .filter(item => /\.html?$/i.test(item.name))  // only HTML
-        .forEach(item => {
-          const div = document.createElement('div');
-          div.className = 'folder-card';
-          const title = item.name.replace(/\.html?$/,'');
-          div.innerHTML = `
+        .filter(item => /\.html?$/i.test(item.name));
+
+      htmlFiles.forEach(item => {
+        const title = item.name.replace(/\.html?$/,'');
+        const div = document.createElement('div');
+        div.className = 'folder-card';
+        div.innerHTML = `
           <div class="folder-title">
             <span>${title}</span>
             <span class="chip chip-blog">blog</span>
           </div>
           <div class="folder-path">${item.name}</div>
           <div class="small" style="margin-top:4px;">Click to show this blog HTML as the main page.</div>`;
-          div.onclick = () => openFile(`Blog_Post/${item.name}`, title);
-          blogList.appendChild(div);
+        div.onclick = () => openFile(`Blog_Post/${item.name}`, title);
+        blogList.appendChild(div);
 
-          searchIndex.push({ title, path: `Blog_Post/${item.name}`, kind: 'blog' });
-        });
+        // sidebar
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <button type="button" class="link-button" style="color:#e5e7eb;font-size:13px;">
+            ${title}
+          </button>`;
+        li.querySelector('button').onclick = () => openFile(`Blog_Post/${item.name}`, title);
+        sidebarBlog.appendChild(li);
+
+        searchIndex.push({ title, path: `Blog_Post/${item.name}`, kind: 'blog' });
+      });
+
       if(!blogList.innerHTML){
         blogList.innerHTML = '<div class="small">No HTML blog posts found.</div>';
+      }
+      if(!sidebarBlog.innerHTML){
+        sidebarBlog.innerHTML = '<li class="small" style="color:#9ca3af;">No blog posts</li>';
       }
     }catch(e){
       document.getElementById('blog-list').innerHTML =
         '<div class="small">No Blog_Post folder found or could not load it.</div>';
+      const sidebarBlog = document.getElementById('sidebar-blog');
+      sidebarBlog.innerHTML = '<li class="small" style="color:#9ca3af;">Error loading</li>';
     }
   }
 
-  /* Search – HTML only */
+  // Search – HTML only
   function handleSearch(query){
     const container = document.getElementById('search-results');
     query = query.trim().toLowerCase();
@@ -988,7 +1071,7 @@
     `).join('');
   }
 
-  /* Top bar actions */
+  // Top bar actions
   function toggleSidebar(){document.body.classList.toggle('sidebar-hidden');}
   function toggleToc(){document.body.classList.toggle('toc-hidden');}
   function downloadZip(){

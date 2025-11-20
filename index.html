@@ -45,6 +45,28 @@
       background:#020617;
     }
 
+    /* When a file is open, hide overview sections so the screen feels like a single page */
+    body.file-open .pill,
+    body.file-open > .layout main > h1,
+    body.file-open > .layout main > .lead,
+    body.file-open > .layout main > .hero-meta,
+    body.file-open #what-you-will-find,
+    body.file-open #lectures-section,
+    body.file-open #labs-section,
+    body.file-open #exercises-section,
+    body.file-open #group-activities-section,
+    body.file-open #blog-section,
+    body.file-open #about {
+      display:none;
+    }
+    body.file-open .preview-body{
+      min-height:calc(100vh - 170px);
+      max-height:none;
+    }
+    body.file-open .preview-body iframe{
+      height:calc(100vh - 190px);
+    }
+
     /* TOP BAR */
     .topbar{
       background:#005f4f;
@@ -348,6 +370,19 @@
     }
     .btn:hover{opacity:.94;}
 
+    .btn-ghost{
+      background:none;
+      border:1px solid rgba(148,163,184,.6);
+      border-radius:999px;
+      font-size:11px;
+      padding:4px 10px;
+      cursor:pointer;
+      color:var(--muted);
+    }
+    .btn-ghost:hover{
+      background:rgba(148,163,184,.15);
+    }
+
     pre{
       white-space:pre-wrap;background:#020617;color:#e5e7eb;
       padding:10px;border-radius:8px;font-size:12px;overflow:auto;
@@ -485,7 +520,7 @@
     <div class="sidebar-sections">
       <div class="sidebar-section-title">Sections</div>
       <ul class="sidebar-nav">
-        <li><a href="#top">Overview <span>intro</span></a></li>
+        <li><a href="#top" onclick="clearPreview()">Overview <span>intro</span></a></li>
         <li><a href="#repo-viewer">Main viewer <span>screen</span></a></li>
       </ul>
 
@@ -590,6 +625,7 @@
               </div>
             </div>
           </div>
+          <button class="btn-ghost" onclick="clearPreview()">Overview mode</button>
         </div>
         <div class="preview-body" id="preview-body">
           <div id="preview" class="small">
@@ -845,12 +881,11 @@
     }
   }
 
-  // IMPORTANT: this is where the 403 handling is – no extra HTML file needed.
+  // Open a file and display it as the main screen
   async function openFile(path, label) {
     try {
       scrollToPreview();
 
-      // Update labels in the header
       document.getElementById('preview-label').textContent = label || path;
       document.getElementById('preview-path').textContent = path;
 
@@ -868,12 +903,14 @@
         const text = await res.text();
         const html = renderMarkdown(text);
         showPreview(html);
+        document.body.classList.add('file-open');
       } else if (lower.endsWith('.ipynb')) {
         showPreview(
           `<p class="small"><code>${path}</code> is a Jupyter notebook (.ipynb). ` +
           `This portfolio only displays the corresponding HTML exports. ` +
           `Please open the HTML version of this activity.</p>`
         );
+        document.body.classList.add('file-open');
       } else if (lower.endsWith('.html') || lower.endsWith('.htm')) {
         const res = await fetch(rawUrl);
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -887,16 +924,27 @@
 
         body.innerHTML = '';
         body.appendChild(wrapper);
+        document.body.classList.add('file-open');
       } else {
         showPreview(
           `<p class="small">File <code>${path}</code> is not a markdown or HTML file, so it is not rendered here.</p>`
         );
+        document.body.classList.add('file-open');
       }
     } catch (e) {
       showPreview(
         `<p class="small">Could not open file <code>${path}</code>: ${e.message}</p>`
       );
     }
+  }
+
+  // Reset back to overview mode (like switching pages back in Dane's site)
+  function clearPreview(){
+    document.body.classList.remove('file-open');
+    document.getElementById('preview-label').textContent = 'Portfolio preview';
+    document.getElementById('preview-path').textContent = 'Select any HTML page to load it here.';
+    document.getElementById('preview-body').innerHTML =
+      '<div id="preview" class="small">Select a lab, lecture, exercise, group activity, or blog post (HTML) from the sidebar or from the lists below to display it here as the main page.</div>';
   }
 
   async function loadFolderList(folderName, containerId, kind){

@@ -1,0 +1,7 @@
+if (!res.ok) throw new Error('HTTP ' + res.status);
+...
+catch (e) {
+  showPreview(
+    `<p class="small">Could not open file <code>${path}</code>: ${e.message}</p>`
+  );
+}

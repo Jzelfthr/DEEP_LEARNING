@@ -19,8 +19,7 @@
       --pill-bg:#e5e7eb;
       --shadow-soft:0 18px 45px rgba(15,23,42,.18);
     }
-
-    /* Dark theme override */
+    /* Dark theme */
     body.theme-dark{
       --page-bg:#020617;
       --card:#020617;
@@ -30,7 +29,6 @@
       --sidebar-border:#111827;
       --pill-bg:#0f172a;
     }
-
     *{box-sizing:border-box}
     html,body{
       margin:0;
@@ -107,22 +105,11 @@
       margin:0 auto;
     }
 
-    /* Hide sidebars when toggled */
-    body.sidebar-hidden .sidebar{
-      display:none;
-    }
-    body.sidebar-hidden .layout{
-      grid-template-columns:minmax(0,1fr) 230px;
-    }
-    body.toc-hidden .toc{
-      display:none;
-    }
-    body.toc-hidden .layout{
-      grid-template-columns:260px minmax(0,1fr);
-    }
-    body.sidebar-hidden.toc-hidden .layout{
-      grid-template-columns:minmax(0,1fr);
-    }
+    body.sidebar-hidden .sidebar{display:none;}
+    body.sidebar-hidden .layout{grid-template-columns:minmax(0,1fr) 230px;}
+    body.toc-hidden .toc{display:none;}
+    body.toc-hidden .layout{grid-template-columns:260px minmax(0,1fr);}
+    body.sidebar-hidden.toc-hidden .layout{grid-template-columns:minmax(0,1fr);}
 
     /* LEFT SIDEBAR */
     .sidebar{
@@ -134,7 +121,7 @@
       flex-direction:column;
       gap:18px;
       position:sticky;
-      top:38px; /* under topbar */
+      top:38px;
       height:calc(100vh - 38px);
       overflow:auto;
     }
@@ -165,7 +152,6 @@
       color:#9ca3af;
       margin-top:2px;
     }
-
     .sidebar-section-title{
       margin:14px 0 6px;
       font-size:12px;
@@ -203,9 +189,7 @@
     }
 
     /* Sidebar search */
-    .sidebar-search{
-      margin-top:8px;
-    }
+    .sidebar-search{margin-top:8px;}
     .sidebar-search input{
       width:100%;
       padding:6px 10px;
@@ -216,9 +200,7 @@
       font-size:13px;
       outline:none;
     }
-    .sidebar-search input::placeholder{
-      color:#6b7280;
-    }
+    .sidebar-search input::placeholder{color:#6b7280;}
     .sidebar-search-results{
       margin-top:8px;
       font-size:13px;
@@ -257,9 +239,7 @@
     }
 
     /* MAIN CONTENT */
-    main{
-      padding:24px 32px 42px;
-    }
+    main{padding:24px 32px 42px;}
     .pill{
       display:inline-flex;
       align-items:center;
@@ -273,10 +253,7 @@
       letter-spacing:.14em;
     }
     .pill-dot{
-      width:7px;
-      height:7px;
-      border-radius:999px;
-      background:var(--accent);
+      width:7px;height:7px;border-radius:999px;background:var(--accent);
     }
     h1{
       font-size:32px;
@@ -289,46 +266,27 @@
       max-width:720px;
       font-size:14px;
     }
-
     .hero-meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:14px;
-      font-size:12px;
-      color:var(--muted);
+      display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;
+      font-size:12px;color:var(--muted);
     }
     .hero-meta span{
-      padding:3px 10px;
-      border-radius:999px;
+      padding:3px 10px;border-radius:999px;
       border:1px solid rgba(148,163,184,.6);
       background:rgba(255,255,255,.6);
       backdrop-filter:blur(6px);
     }
 
-    .section{
-      margin-top:30px;
-    }
+    .section{margin-top:30px;}
     .section-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:6px;
+      display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;
     }
-    .section h2{
-      font-size:20px;
-      margin:0;
-    }
+    .section h2{font-size:20px;margin:0;}
     .section-tag{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      color:var(--muted);
+      font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);
     }
     .section-divider{
-      width:42px;
-      height:3px;
-      border-radius:999px;
+      width:42px;height:3px;border-radius:999px;
       background:linear-gradient(90deg,var(--accent),#fb7185);
       margin-top:4px;
     }
@@ -352,18 +310,12 @@
 
     .meta{font-size:12px;color:var(--muted);}
     .small{font-size:13px;color:var(--muted);}
-
     .meta-highlight{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 10px;
-      border-radius:999px;
+      display:inline-flex;align-items:center;gap:6px;
+      padding:6px 10px;border-radius:999px;
       background:var(--accent-soft);
       border:1px solid var(--accent-soft-border);
-      color:#991b1b;
-      font-size:11px;
-      margin-top:8px;
+      color:#991b1b;font-size:11px;margin-top:8px;
     }
 
     .grid{
@@ -375,11 +327,11 @@
     .folder-card{
       border-radius:14px;
       padding:10px 11px 11px;
-      background:linear-gradient(135deg,#ffffff, #f9fafb);
+      background:linear-gradient(135deg,#ffffff,#f9fafb);
       border:1px solid rgba(209,213,219,.9);
       box-shadow:0 10px 28px rgba(15,23,42,.12);
       cursor:pointer;
-      transition:transform .1s ease,box-shadow .1s ease, border-color .1s ease;
+      transition:transform .1s ease,box-shadow .1s ease,border-color .1s ease;
     }
     .folder-card:hover{
       transform:translateY(-1px);
@@ -387,140 +339,81 @@
       border-color:#fecaca;
     }
     .folder-title{
-      font-weight:600;
-      margin-bottom:4px;
-      display:flex;
-      align-items:center;
-      gap:6px;
+      font-weight:600;margin-bottom:4px;
+      display:flex;align-items:center;gap:6px;
     }
     .folder-badge{
-      font-size:11px;
-      padding:1px 7px;
-      border-radius:999px;
-      color:#7f1d1d;
-      background:#fee2e2;
-      border:1px solid #fecaca;
+      font-size:11px;padding:1px 7px;border-radius:999px;
+      color:#7f1d1d;background:#fee2e2;border:1px solid #fecaca;
     }
-    .folder-path{
-      font-size:11px;
-      color:var(--muted);
-    }
+    .folder-path{font-size:11px;color:var(--muted);}
 
     .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      margin-top:12px;
-      padding:8px 13px;
-      border-radius:999px;
-      background:var(--accent);
-      color:white;
-      font-size:13px;
-      text-decoration:none;
-      border:none;
-      cursor:pointer;
+      display:inline-flex;align-items:center;gap:6px;
+      margin-top:12px;padding:8px 13px;border-radius:999px;
+      background:var(--accent);color:white;font-size:13px;
+      text-decoration:none;border:none;cursor:pointer;
       box-shadow:0 10px 26px rgba(190,24,93,.55);
     }
     .btn:hover{opacity:.94;}
 
     pre{
-      white-space:pre-wrap;
-      background:#020617;
-      color:#e5e7eb;
-      padding:10px;
-      border-radius:8px;
-      font-size:12px;
-      overflow:auto;
+      white-space:pre-wrap;background:#020617;color:#e5e7eb;
+      padding:10px;border-radius:8px;font-size:12px;overflow:auto;
     }
 
     .link-list{
-      list-style:none;
-      padding:0;
-      margin:10px 0 0;
-      font-size:14px;
+      list-style:none;padding:0;margin:10px 0 0;font-size:14px;
     }
     .link-list li{
       margin:3px 0;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:8px;
+      display:flex;align-items:center;justify-content:space-between;gap:8px;
     }
 
     .link-button{
-      background:none;
-      border:none;
-      padding:0;
-      margin:0;
-      color:#1d4ed8;
-      cursor:pointer;
-      font-size:14px;
-      text-align:left;
-      font-family:inherit;
+      background:none;border:none;padding:0;margin:0;
+      color:#1d4ed8;cursor:pointer;font-size:14px;
+      text-align:left;font-family:inherit;
     }
-    .link-button:hover{
-      text-decoration:underline;
-    }
+    .link-button:hover{text-decoration:underline;}
 
     .chip{
-      font-size:11px;
-      padding:1px 7px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.6);
-      color:var(--muted);
-      white-space:nowrap;
+      font-size:11px;padding:1px 7px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.6);color:var(--muted);white-space:nowrap;
     }
     .chip-lecture{border-color:#bfdbfe;color:#1d4ed8;background:#eff6ff;}
     .chip-lab{border-color:#bbf7d0;color:#15803d;background:#ecfdf3;}
     .chip-ex{border-color:#fde68a;color:#92400e;background:#fffbeb;}
     .chip-group{border-color:#e5e7eb;color:#374151;background:#f9fafb;}
     .chip-blog{border-color:#fecaca;color:#b91c1c;background:#fef2f2;}
+    .chip-root{border-color:#c4b5fd;color:#4c1d95;background:#eef2ff;}
 
     /* Preview panel */
     .preview-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:8px;
-      gap:8px;
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:8px;gap:8px;
     }
     .preview-title{
-      font-size:14px;
-      font-weight:600;
-      color:#0f172a;
-      display:flex;
-      align-items:center;
-      gap:8px;
+      font-size:14px;font-weight:600;color:#0f172a;
+      display:flex;align-items:center;gap:8px;
     }
     .preview-title span{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:22px;
-      height:22px;
-      border-radius:999px;
-      background:#fee2e2;
-      color:#b91c1c;
-      font-size:12px;
-      font-weight:700;
+      display:inline-flex;align-items:center;justify-content:center;
+      width:22px;height:22px;border-radius:999px;
+      background:#fee2e2;color:#b91c1c;font-size:12px;font-weight:700;
     }
-    .preview-sub{
-      font-size:11px;
-      color:var(--muted);
-    }
+    .preview-sub{font-size:11px;color:var(--muted);}
     .preview-body{
-      border-radius:12px;
-      border:1px solid rgba(209,213,219,.9);
-      background:#f9fafb;
-      padding:10px 12px;
-      max-height:420px;
-      overflow:auto;
+      border-radius:12px;border:1px solid rgba(209,213,219,.9);
+      background:#f9fafb;padding:10px 12px;
+      max-height:420px;overflow:auto;
+    }
+    .preview-body iframe{
+      width:100%;height:380px;border:none;border-radius:8px;background:white;
     }
 
     footer{
-      margin-top:32px;
-      font-size:12px;
-      color:var(--muted);
+      margin-top:32px;font-size:12px;color:var(--muted);
     }
 
     /* RIGHT CONTENTS COLUMN */
@@ -535,52 +428,32 @@
       overflow:auto;
     }
     .toc h3{
-      margin-top:0;
-      font-size:13px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:var(--muted);
+      margin-top:0;font-size:13px;
+      text-transform:uppercase;letter-spacing:.16em;color:var(--muted);
     }
     .toc ul{
-      list-style:none;
-      padding-left:0;
-      margin:8px 0 0;
+      list-style:none;padding-left:0;margin:8px 0 0;
     }
     .toc li{margin:3px 0;}
     .toc a{
-      color:#111827;
-      text-decoration:none;
-      font-size:13px;
+      color:#111827;text-decoration:none;font-size:13px;
     }
     .toc a:hover{text-decoration:underline;}
 
     @media (max-width:1160px){
-      .layout{
-        grid-template-columns:230px minmax(0,1fr);
-      }
+      .layout{grid-template-columns:230px minmax(0,1fr);}
       .toc{display:none;}
     }
     @media (max-width:800px){
-      .layout{
-        grid-template-columns:1fr;
-        max-width:100%;
-      }
+      .layout{grid-template-columns:1fr;max-width:100%;}
       .sidebar{
-        position:relative;
-        top:0;
-        height:auto;
-        flex-direction:row;
-        align-items:flex-start;
-        gap:16px;
+        position:relative;top:0;height:auto;
+        flex-direction:row;align-items:flex-start;gap:16px;
       }
       .sidebar-logo{flex:1;}
       .sidebar-sections{flex:1;}
-      main{
-        padding:20px 18px 26px;
-      }
-      .repo-layout{
-        grid-template-columns:1fr;
-      }
+      main{padding:20px 18px 26px;}
+      .repo-layout{grid-template-columns:1fr;}
     }
   </style>
 </head>
@@ -588,27 +461,14 @@
 <header class="topbar">
   <div class="topbar-inner">
     <div class="topbar-left">
-      <button class="icon-button" onclick="toggleSidebar()" title="Toggle navigation">
-        ☰
-      </button>
+      <button class="icon-button" onclick="toggleSidebar()" title="Toggle navigation">☰</button>
       <div class="topbar-title">JFG Deep Learning Portfolio</div>
     </div>
     <div class="topbar-actions">
-      <button class="icon-button" onclick="openGithub()" title="Open repository">
-        Ⓖ
-      </button>
-      <button class="icon-button" onclick="downloadZip()" title="Download ZIP">
-        ⭳
-      </button>
-      <button class="icon-button" onclick="toggleFullscreen()" title="Toggle fullscreen">
-        ⛶
-      </button>
-      <button class="icon-button" onclick="toggleTheme()" title="Toggle light/dark">
-        ☾
-      </button>
-      <button class="icon-button" onclick="toggleToc()" title="Toggle contents panel">
-        ☷
-      </button>
+      <button class="icon-button" onclick="downloadZip()" title="Download repo ZIP">⭳</button>
+      <button class="icon-button" onclick="toggleFullscreen()" title="Toggle fullscreen">⛶</button>
+      <button class="icon-button" onclick="toggleTheme()" title="Toggle light/dark theme">☾</button>
+      <button class="icon-button" onclick="toggleToc()" title="Toggle contents panel">☷</button>
     </div>
   </div>
 </header>
@@ -637,6 +497,7 @@
         <li><a href="#top">Overview <span>intro</span></a></li>
         <li><a href="#what-you-will-find">What you will find <span>map</span></a></li>
         <li><a href="#repo-viewer">Live repo viewer <span>repo</span></a></li>
+        <li><a href="#root-files">Root files <span>html & more</span></a></li>
         <li><a href="#lectures">Lectures <span>theory</span></a></li>
         <li><a href="#labs">Labs <span>hands-on</span></a></li>
         <li><a href="#exercises">Exercises <span>practice</span></a></li>
@@ -649,19 +510,16 @@
 
   <!-- MAIN CONTENT -->
   <main id="top">
-    <div class="pill">
-      <span class="pill-dot"></span> Deep Learning Portfolio
-    </div>
+    <div class="pill"><span class="pill-dot"></span> Deep Learning Portfolio</div>
     <h1>The Deep Learning Portfolio of Jezzel Faith Gier</h1>
     <p class="lead">
       This site presents my work in deep learning as a structured, browsable portfolio.
       All content is pulled live from the
-      <a href="https://github.com/Jzelfthr/DEEP_LEARNING" target="_blank">DEEP_LEARNING</a>
-      repository and rendered inside this page.
+      <code>DEEP_LEARNING</code> repository and rendered inside this page.
     </p>
     <div class="hero-meta">
-      <span>Lectures · Labs · Exercises · Group Activities · Blog</span>
-      <span>Built from real notebooks and markdown files</span>
+      <span>Lectures · Labs · Exercises · Group Activities · Blog · HTML pages</span>
+      <span>Everything stays inside this page — no GitHub pages needed</span>
     </div>
 
     <section id="what-you-will-find" class="section">
@@ -673,16 +531,9 @@
         <div class="section-tag">Overview</div>
       </div>
       <p class="small">
-        Use this portfolio to explore my progress through lectures, labs, and exercises.
-        Each item opens directly in the preview panel so you can read it without leaving the page.
+        Explore the contents of my deep learning repository without leaving this page.
+        Click any folder, notebook, markdown file, or HTML page and it will open in the preview panel.
       </p>
-      <ul class="bullet-list small" style="margin-top:8px;">
-        <li><strong>Lectures</strong> – structured theory notes and explanations.</li>
-        <li><strong>Labs</strong> – experiments, model runs, and result analysis.</li>
-        <li><strong>Exercises</strong> – practice problems and worked solutions.</li>
-        <li><strong>Group activities</strong> – collaborative tasks and projects.</li>
-        <li><strong>Blog posts</strong> – short reflections and learning highlights.</li>
-      </ul>
     </section>
 
     <section id="repo-viewer" class="section">
@@ -696,9 +547,8 @@
       <div class="repo-layout">
         <div class="card">
           <p class="small">
-            The viewer below uses the GitHub API to list folders from the
-            <code>DEEP_LEARNING</code> repository. Click any folder or item to load a
-            preview of its content in the panel on the right.
+            The viewer below uses the GitHub API to list folders and files from the
+            <code>DEEP_LEARNING</code> repository. Select anything to preview it on the right.
           </p>
 
           <div class="meta-highlight">
@@ -708,33 +558,44 @@
 
           <div class="section" style="margin-top:16px;">
             <h3 style="font-size:15px;margin:0 0 4px;">Top-level folders</h3>
-            <p class="small" style="margin-top:2px;">These folders are read directly from the repo root.</p>
+            <p class="small" style="margin-top:2px;">These are the directories in the repo root.</p>
             <div id="folders" class="grid"></div>
           </div>
         </div>
 
         <div class="card">
           <div class="preview-header">
-            <div>
-              <div class="preview-title">
-                <span>JP</span>
-                <div>
-                  <div id="preview-label">Portfolio preview</div>
-                  <div class="preview-sub" id="preview-path">Select any item to load it here.</div>
-                </div>
+            <div class="preview-title">
+              <span>JP</span>
+              <div>
+                <div id="preview-label">Portfolio preview</div>
+                <div class="preview-sub" id="preview-path">Select any item to load it here.</div>
               </div>
             </div>
           </div>
-          <div class="preview-body">
+          <div class="preview-body" id="preview-body">
             <div id="preview" class="small">
-              Select a folder, lecture, lab, exercise, group activity, or blog post
-              to preview its markdown or notebook summary here.
+              Select a folder, lecture, lab, exercise, group activity, blog post, or HTML page
+              to preview it here.
             </div>
           </div>
-          <button class="btn" onclick="openGithub()">
-            Open repository on GitHub
-          </button>
         </div>
+      </div>
+    </section>
+
+    <section id="root-files" class="section">
+      <div class="section-header">
+        <div>
+          <h2>Root files</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="section-tag">HTML & others</div>
+      </div>
+      <p class="small">Files that live directly in the repository root (including your HTML pages).</p>
+      <div class="card">
+        <ul id="root-file-list" class="link-list">
+          <li class="small">Loading root files…</li>
+        </ul>
       </div>
     </section>
 
@@ -827,15 +688,14 @@
         <div class="section-tag">How it works</div>
       </div>
       <p class="small">
-        This page is a single static HTML file that runs entirely in the browser.
-        When hosted on GitHub Pages, it calls the public GitHub API to fetch directory
-        listings and files from <code>Jzelfthr/DEEP_LEARNING</code>. Markdown files
-        and notebook markdown cells are rendered directly into the preview panel.
+        This page is a single static HTML file that runs entirely in the browser. It uses the
+        public GitHub API to fetch files from <code>Jzelfthr/DEEP_LEARNING</code>. Markdown and
+        notebook markdown cells are rendered into the preview panel; HTML files are shown as full
+        pages inside the panel using a sandboxed iframe.
       </p>
       <p class="small">
-        This makes the portfolio easy to maintain: whenever the repository is updated
-        with new lectures, labs, or reflections, the site automatically reflects those
-        changes the next time it is loaded.
+        That means you can add or update notebooks, markdowns, and HTML pages in the repo and the
+        portfolio will automatically reflect those changes the next time it loads.
       </p>
     </section>
 
@@ -870,6 +730,7 @@
     const sections = [
       {id:'what-you-will-find', label:'What you will find'},
       {id:'repo-viewer',        label:'Live repo viewer'},
+      {id:'root-files',         label:'Root files'},
       {id:'lectures',           label:'Lectures',          folder:'lectures'},
       {id:'labs',               label:'Labs',              folder:'labs'},
       {id:'exercises',          label:'Exercises',         folder:'exercises'},
@@ -895,7 +756,9 @@
         `${repo} — ${root.length} items at the top level.`;
 
       const folders = root.filter(f => f.type === 'dir');
+      const rootFiles = root.filter(f => f.type === 'file');
       renderFolders(folders);
+      renderRootFiles(rootFiles);
       buildToc(folders);
 
       if(folders.find(f => f.name === 'lectures')) loadFolderList('lectures','lectures-list', 'lecture');
@@ -938,34 +801,52 @@
     });
   }
 
+  function renderRootFiles(files){
+    const ul = document.getElementById('root-file-list');
+    ul.innerHTML = '';
+    const ignore = new Set(['index.html','.nojekyll']); // avoid opening itself
+    files.forEach(item => {
+      if(ignore.has(item.name)) return;
+      const li = document.createElement('li');
+      const cleanName = item.name;
+      li.innerHTML = `
+        <button type="button" class="link-button">${cleanName}</button>
+        <span class="chip chip-root">root</span>`;
+      li.querySelector('button').onclick = () => openFile(item.path, cleanName);
+      ul.appendChild(li);
+      searchIndex.push({ title: cleanName, path: item.path, kind: 'root' });
+    });
+    if(!ul.innerHTML){
+      ul.innerHTML = '<li class="small">No root files found (other than this page).</li>';
+    }
+  }
+
   async function openFolder(path){
     try{
       const list = await fetchJson(`${apiBase}/${path}`);
       const mdFile =
         list.find(x => /readme|intro/i.test(x.name)) ||
         list.find(x => /\.md$/i.test(x.name)) ||
+        list.find(x => /\.html?$/i.test(x.name)) ||
         null;
 
       document.getElementById('preview-label').textContent = path;
       document.getElementById('preview-path').textContent = 'Folder preview';
 
-      if(mdFile && mdFile.download_url){
-        const res = await fetch(mdFile.download_url);
-        const text = await res.text();
-        const html = renderMarkdown(text);
-        showPreview(html, mdFile.html_url);
+      if(mdFile){
+        await openFile(mdFile.path, mdFile.name, true);
       }else{
         const htmlList = '<ul>' + list.map(x =>
-          `<li><a href="${x.html_url}" target="_blank">${x.name}</a> — ${x.type}</li>`
+          `<li>${x.name} — ${x.type}</li>`
         ).join('') + '</ul>';
-        showPreview(htmlList, `https://github.com/${owner}/${repo}/tree/main/${path}`);
+        showPreview(htmlList);
       }
     }catch(e){
       showPreview(`<p class="small">Could not open folder <code>${path}</code>: ${e.message}</p>`);
     }
   }
 
-  async function openFile(path, label){
+  async function openFile(path, label, fromFolder){
     try{
       const file = await fetchJson(`${apiBase}/${path}`);
       if(file.type !== 'file'){
@@ -977,19 +858,21 @@
       document.getElementById('preview-path').textContent = path;
 
       const lower = file.name.toLowerCase();
+      const body = document.getElementById('preview-body');
+      body.innerHTML = '<div id="preview" class="small">Loading…</div>';
 
       if(lower.endsWith('.md')){
         if(!file.download_url){
-          showPreview(`<p class="small">No direct download URL for ${file.name}.</p>`, file.html_url);
+          showPreview(`<p class="small">No direct download URL for ${file.name}.</p>`);
           return;
         }
         const res = await fetch(file.download_url);
         const text = await res.text();
         const html = renderMarkdown(text);
-        showPreview(html, file.html_url);
+        showPreview(html);
       }else if(lower.endsWith('.ipynb')){
         if(!file.download_url){
-          showPreview(`<p class="small">Notebook cannot be previewed directly, but you can open it on GitHub.</p>`, file.html_url);
+          showPreview(`<p class="small">Notebook cannot be previewed directly.</p>`);
           return;
         }
         const res = await fetch(file.download_url);
@@ -1010,11 +893,24 @@
           summaryMd += '_Could not parse notebook JSON._';
         }
         const html = renderMarkdown(summaryMd);
-        showPreview(html, file.html_url);
+        showPreview(html);
+      }else if(lower.endsWith('.html') || lower.endsWith('.htm')){
+        if(!file.download_url){
+          showPreview(`<p class="small">HTML file cannot be accessed.</p>`);
+          return;
+        }
+        const res = await fetch(file.download_url);
+        const htmlText = await res.text();
+        const iframe = document.createElement('iframe');
+        iframe.srcdoc = htmlText;
+        const wrapper = document.createElement('div');
+        wrapper.appendChild(iframe);
+        const bodyElem = document.getElementById('preview-body');
+        bodyElem.innerHTML = '';
+        bodyElem.appendChild(wrapper);
       }else{
         showPreview(
-          `<p class="small">File <code>${file.name}</code> is not a markdown or notebook file, so it is not rendered here. You can open it on GitHub.</p>`,
-          file.html_url
+          `<p class="small">File <code>${file.name}</code> is not a markdown, notebook, or HTML file, so it is not rendered here.</p>`
         );
       }
     }catch(e){
@@ -1031,7 +927,7 @@
         .filter(item => item.type === 'file')
         .forEach(item => {
           const li = document.createElement('li');
-          const cleanName = item.name.replace(/\.(ipynb|md)$/,'');
+          const cleanName = item.name.replace(/\.(ipynb|md|html?)$/,'');
           let chipClass = 'chip';
           if(kind === 'lecture') chipClass += ' chip-lecture';
           else if(kind === 'lab') chipClass += ' chip-lab';
@@ -1044,7 +940,6 @@
           li.querySelector('button').onclick = () => openFile(`${folderName}/${item.name}`, cleanName);
           ul.appendChild(li);
 
-          // add to search index
           searchIndex.push({ title: cleanName, path: `${folderName}/${item.name}`, kind });
         });
       if(!ul.innerHTML){
@@ -1056,17 +951,15 @@
     }
   }
 
-  function showPreview(html, link){
-    const p = document.getElementById('preview');
-    p.innerHTML = html + (link
-      ? `<div style="margin-top:8px"><a class="small" href="${link}" target="_blank">Open full file on GitHub ↗</a></div>`
-      : '');
+  function showPreview(html){
+    const bodyElem = document.getElementById('preview-body');
+    bodyElem.innerHTML = `<div id="preview">${html}</div>`;
   }
 
-  // very small markdown renderer
+  /* Simple markdown renderer */
   function renderMarkdown(md){
     md = md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    md = md.replace(/```([\s\S]*?)```/g, (m,code)=>`<pre>${code}</pre>`);
+    md = md.replace(/```([\s\S]*?)```/g,(m,code)=>`<pre>${code}</pre>`);
     md = md.replace(/^### (.*)$/gim,'<h3>$1</h3>');
     md = md.replace(/^## (.*)$/gim,'<h2>$1</h2>');
     md = md.replace(/^# (.*)$/gim,'<h1>$1</h1>');
@@ -1087,7 +980,7 @@
       list.forEach(item => {
         const div = document.createElement('div');
         div.className = 'folder-card';
-        const title = item.name.replace(/\.(md|ipynb)$/,'');
+        const title = item.name.replace(/\.(md|ipynb|html?)$/,'');
         div.innerHTML = `
           <div class="folder-title">
             <span>${title}</span>
@@ -1106,7 +999,7 @@
     }
   }
 
-  /* Search handling */
+  /* Search */
   function handleSearch(query){
     const container = document.getElementById('search-results');
     query = query.trim().toLowerCase();
@@ -1130,21 +1023,12 @@
   }
 
   /* Top bar actions */
-  function toggleSidebar(){
-    document.body.classList.toggle('sidebar-hidden');
-  }
-  function toggleToc(){
-    document.body.classList.toggle('toc-hidden');
-  }
-  function openGithub(){
-    window.open(`https://github.com/${owner}/${repo}`, '_blank');
-  }
+  function toggleSidebar(){document.body.classList.toggle('sidebar-hidden');}
+  function toggleToc(){document.body.classList.toggle('toc-hidden');}
   function downloadZip(){
-    window.open(`https://github.com/${owner}/${repo}/archive/refs/heads/main.zip`, '_blank');
+    window.open(`https://github.com/${owner}/${repo}/archive/refs/heads/main.zip`,'_blank');
   }
-  function toggleTheme(){
-    document.body.classList.toggle('theme-dark');
-  }
+  function toggleTheme(){document.body.classList.toggle('theme-dark');}
   function toggleFullscreen(){
     if(!document.fullscreenElement){
       document.documentElement.requestFullscreen?.();

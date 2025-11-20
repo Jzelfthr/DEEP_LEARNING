@@ -299,15 +299,6 @@
       border:1px solid rgba(148,163,184,.4);
     }
 
-    /* Live repo viewer layout – preview dominates */
-    .repo-layout{
-      display:grid;
-      grid-template-columns:minmax(0,0.85fr) minmax(0,1.6fr);
-      gap:18px;
-      align-items:flex-start;
-      margin-top:14px;
-    }
-
     .meta{font-size:12px;color:var(--muted);}
     .small{font-size:13px;color:var(--muted);}
     .meta-highlight{
@@ -387,7 +378,7 @@
     .chip-group{border-color:#e5e7eb;color:#374151;background:#f9fafb;}
     .chip-blog{border-color:#fecaca;color:#b91c1c;background:#fef2f2;}
 
-    /* Preview panel */
+    /* Preview panel (main screen) */
     .preview-header{
       display:flex;align-items:center;justify-content:space-between;
       margin-bottom:8px;gap:8px;
@@ -452,7 +443,6 @@
         flex-direction:column;align-items:stretch;gap:16px;
       }
       main{padding:20px 18px 26px;}
-      .repo-layout{grid-template-columns:1fr;}
       .preview-body{max-height:none;height:auto;}
       .preview-body iframe{height:520px;}
     }
@@ -555,6 +545,7 @@
       </p>
     </section>
 
+    <!-- MAIN VIEWER SECTION -->
     <section id="repo-viewer" class="section">
       <div class="section-header">
         <div>
@@ -563,47 +554,54 @@
         </div>
         <div class="section-tag">Main screen</div>
       </div>
-      <div class="repo-layout">
-        <div class="card">
-          <p class="small">
-            This viewer uses the GitHub API to list folders and files from the
-            <code>DEEP_LEARNING</code> repository. Whenever you select an HTML file (lab, lecture,
-            exercise, group work, or blog post), it opens in the large panel on the right.
-          </p>
 
-          <div class="meta-highlight">
-            <span>●</span>
-            <span id="repo-info">Loading repository information…</span>
-          </div>
+      <!-- intro card -->
+      <div class="card" style="margin-bottom:14px;">
+        <p class="small">
+          This viewer uses the GitHub API to list folders and files from the
+          <code>DEEP_LEARNING</code> repository. Whenever you select an HTML file
+          (lab, lecture, exercise, group work, or blog post), it becomes the main
+          screen below.
+        </p>
 
-          <div class="section" style="margin-top:16px;">
-            <h3 style="font-size:15px;margin:0 0 4px;">Top-level folders</h3>
-            <p class="small" style="margin-top:2px;">Click a folder to auto-pick a main HTML page if available.</p>
-            <div id="folders" class="grid"></div>
-          </div>
+        <div class="meta-highlight">
+          <span>●</span>
+          <span id="repo-info">Loading repository information…</span>
         </div>
 
-        <div class="card">
-          <div class="preview-header">
-            <div class="preview-title">
-              <span>JP</span>
-              <div>
-                <div id="preview-label">Portfolio preview</div>
-                <div class="preview-sub" id="preview-path">Select any HTML page to load it here.</div>
+        <div class="section" style="margin-top:10px;">
+          <h3 style="font-size:15px;margin:0 0 4px;">Top-level folders</h3>
+          <p class="small" style="margin-top:2px;">
+            Click a folder to auto-pick a main HTML page if available.
+          </p>
+          <div id="folders" class="grid"></div>
+        </div>
+      </div>
+
+      <!-- big main screen -->
+      <div class="card">
+        <div class="preview-header">
+          <div class="preview-title">
+            <span>JP</span>
+            <div>
+              <div id="preview-label">Portfolio preview</div>
+              <div class="preview-sub" id="preview-path">
+                Select any HTML page to load it here.
               </div>
             </div>
           </div>
-          <div class="preview-body" id="preview-body">
-            <div id="preview" class="small">
-              Select a folder, lab, lecture, exercise, group activity, or blog post (HTML)
-              to display it here as the main page.
-            </div>
+        </div>
+        <div class="preview-body" id="preview-body">
+          <div id="preview" class="small">
+            Select a lab, lecture, exercise, group activity, or blog post (HTML)
+            from the sidebar or from the lists below to display it here as the
+            main page.
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Middle lists (mirror of sidebar, still clickable) -->
+    <!-- Middle lists (mirrors of sidebar) -->
     <section id="lectures-section" class="section">
       <div class="section-header">
         <div>
@@ -835,7 +833,7 @@
       document.getElementById('preview-path').textContent = 'Folder preview (HTML)';
 
       if(mainFile){
-        await openFile(mainFile.path, mainFile.name, true);
+        await openFile(mainFile.path, mainFile.name);
       }else{
         const htmlList = '<ul>' + list.map(x =>
           `<li>${x.name} — ${x.type}</li>`
@@ -847,58 +845,57 @@
     }
   }
 
-  async function openFile(path, label, fromFolder){
-    try{
+  // IMPORTANT: this is where the 403 handling is – no extra HTML file needed.
+  async function openFile(path, label) {
+    try {
       scrollToPreview();
-      const file = await fetchJson(`${apiBase}/${path}`);
-      if(file.type !== 'file'){
-        showPreview(`<p class="small">This is not a regular file.</p>`);
-        return;
-      }
 
-      document.getElementById('preview-label').textContent = label || file.name;
+      // Update labels in the header
+      document.getElementById('preview-label').textContent = label || path;
       document.getElementById('preview-path').textContent = path;
 
-      const lower = file.name.toLowerCase();
+      const lower = path.toLowerCase();
       const body = document.getElementById('preview-body');
       body.innerHTML = '<div id="preview" class="small">Loading…</div>';
 
-      if(lower.endsWith('.md')){
-        if(!file.download_url){
-          showPreview(`<p class="small">No direct download URL for ${file.name}.</p>`);
-          return;
-        }
-        const res = await fetch(file.download_url);
+      // Build raw.githubusercontent.com URL (avoids 403 from contents API)
+      const encodedPath = path.split('/').map(encodeURIComponent).join('/');
+      const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/main/${encodedPath}`;
+
+      if (lower.endsWith('.md')) {
+        const res = await fetch(rawUrl);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         const text = await res.text();
         const html = renderMarkdown(text);
         showPreview(html);
-      }else if(lower.endsWith('.ipynb')){
+      } else if (lower.endsWith('.ipynb')) {
         showPreview(
-          `<p class="small"><code>${file.name}</code> is a Jupyter notebook (.ipynb). ` +
+          `<p class="small"><code>${path}</code> is a Jupyter notebook (.ipynb). ` +
           `This portfolio only displays the corresponding HTML exports. ` +
           `Please open the HTML version of this activity.</p>`
         );
-      }else if(lower.endsWith('.html') || lower.endsWith('.htm')){
-        if(!file.download_url){
-          showPreview(`<p class="small">HTML file cannot be accessed.</p>`);
-          return;
-        }
-        const res = await fetch(file.download_url);
+      } else if (lower.endsWith('.html') || lower.endsWith('.htm')) {
+        const res = await fetch(rawUrl);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         const htmlText = await res.text();
+
         const iframe = document.createElement('iframe');
         iframe.srcdoc = htmlText;
+
         const wrapper = document.createElement('div');
         wrapper.appendChild(iframe);
-        const bodyElem = document.getElementById('preview-body');
-        bodyElem.innerHTML = '';
-        bodyElem.appendChild(wrapper);
-      }else{
+
+        body.innerHTML = '';
+        body.appendChild(wrapper);
+      } else {
         showPreview(
-          `<p class="small">File <code>${file.name}</code> is not a markdown or HTML file, so it is not rendered here.</p>`
+          `<p class="small">File <code>${path}</code> is not a markdown or HTML file, so it is not rendered here.</p>`
         );
       }
-    }catch(e){
-      showPreview(`<p class="small">Could not open file <code>${path}</code>: ${e.message}</p>`);
+    } catch (e) {
+      showPreview(
+        `<p class="small">Could not open file <code>${path}</code>: ${e.message}</p>`
+      );
     }
   }
 

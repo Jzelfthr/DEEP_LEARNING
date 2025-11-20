@@ -4,26 +4,40 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Jezzel Faith Gier — Deep Learning Portfolio</title>
-  <meta name="description" content="Portfolio site that surfaces the contents of the DEEP_LEARNING GitHub repo." />
+  <meta name="description" content="Deep Learning portfolio for Jezzel Faith Gier, powered by a live GitHub repository." />
   <style>
     :root{
       --accent:#b0152a;
-      --accent-soft:#fce4e7;
-      --sidebar-bg:#0f172a;
-      --sidebar-border:#1f2937;
-      --text:#111827;
+      --accent-soft:#fef2f2;
+      --accent-soft-border:#fecaca;
+      --sidebar-bg:#020617;
+      --sidebar-border:#111827;
+      --text:#0f172a;
       --muted:#6b7280;
       --card:#ffffff;
-      --page-bg:#f9fafb;
+      --page-bg:#f3f4f6;
+      --pill-bg:#e5e7eb;
+      --shadow-soft:0 18px 45px rgba(15,23,42,.18);
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
-    body{background:var(--page-bg);color:var(--text);line-height:1.6}
+    html,body{
+      margin:0;
+      padding:0;
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    body{
+      background:radial-gradient(circle at top left,#fee2e2 0,#f3f4f6 40%,#e5e7eb 100%);
+      color:var(--text);
+      line-height:1.7;
+    }
 
     .layout{
       display:grid;
-      grid-template-columns:260px minmax(0,1fr) 220px;
+      grid-template-columns:260px minmax(0,1fr) 230px;
       min-height:100vh;
+      max-width:1320px;
+      margin:0 auto;
     }
 
     /* LEFT SIDEBAR */
@@ -31,10 +45,10 @@
       background:var(--sidebar-bg);
       color:#e5e7eb;
       border-right:1px solid var(--sidebar-border);
-      padding:20px 18px;
+      padding:22px 20px 26px;
       display:flex;
       flex-direction:column;
-      gap:18px;
+      gap:22px;
       position:sticky;
       top:0;
       height:100vh;
@@ -43,32 +57,35 @@
     .sidebar-logo{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:12px;
     }
     .sidebar-logo img{
       width:64px;
       height:64px;
       object-fit:cover;
-      border-radius:12px;
-      background:#fdf2f3;
-      padding:4px;
+      border-radius:18px;
+      background:#fef2f2;
+      padding:5px;
+      box-shadow:0 8px 22px rgba(0,0,0,.45);
     }
     .sidebar-title{
       font-size:14px;
-      font-weight:600;
-      letter-spacing:.03em;
+      font-weight:700;
+      letter-spacing:.08em;
       text-transform:uppercase;
     }
     .sidebar-subtitle{
       font-size:13px;
       color:#9ca3af;
+      margin-top:4px;
     }
+
     .sidebar-section-title{
-      margin:16px 0 6px;
-      font-size:13px;
+      margin:10px 0 6px;
+      font-size:12px;
       font-weight:600;
       text-transform:uppercase;
-      letter-spacing:.04em;
+      letter-spacing:.16em;
       color:#9ca3af;
     }
     .sidebar-nav{
@@ -77,12 +94,22 @@
       margin:0;
       font-size:14px;
     }
-    .sidebar-nav li{margin:2px 0}
+    .sidebar-nav li{margin:3px 0}
     .sidebar-nav a{
       color:#e5e7eb;
       text-decoration:none;
       padding:4px 0;
-      display:block;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .sidebar-nav a span{
+      font-size:11px;
+      padding:1px 6px;
+      border-radius:999px;
+      background:rgba(249,250,251,.08);
+      border:1px solid rgba(148,163,184,.3);
+      color:#9ca3af;
     }
     .sidebar-nav a:hover{
       color:#ffffff;
@@ -91,84 +118,177 @@
 
     /* MAIN CONTENT */
     main{
-      padding:28px 32px 40px;
+      padding:30px 32px 42px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:2px 10px 3px;
+      border-radius:999px;
+      font-size:11px;
+      background:var(--pill-bg);
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.14em;
+    }
+    .pill-dot{
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:var(--accent);
     }
     h1{
       font-size:32px;
-      margin:0 0 4px;
+      margin:10px 0 4px;
+      letter-spacing:.01em;
     }
     .lead{
-      margin-top:4px;
+      margin-top:6px;
       color:var(--muted);
-      max-width:700px;
+      max-width:720px;
+      font-size:14px;
     }
-    .pill{
-      display:inline-block;
-      padding:2px 8px;
-      border-radius:999px;
+
+    .hero-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
       font-size:12px;
-      background:var(--accent-soft);
-      color:var(--accent);
-      margin-bottom:8px;
+      color:var(--muted);
     }
+    .hero-meta span{
+      padding:3px 10px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.6);
+      background:rgba(255,255,255,.6);
+      backdrop-filter:blur(6px);
+    }
+
     .section{
-      margin-top:28px;
+      margin-top:30px;
+    }
+    .section-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:6px;
     }
     .section h2{
-      font-size:22px;
-      margin:0 0 6px;
+      font-size:20px;
+      margin:0;
     }
-    .section p{margin:4px 0 0;}
+    .section-tag{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      color:var(--muted);
+    }
+    .section-divider{
+      width:42px;
+      height:3px;
+      border-radius:999px;
+      background:linear-gradient(90deg,var(--accent),#fb7185);
+      margin-top:4px;
+    }
+    .section p{margin:6px 0 0;font-size:14px;}
 
     .card{
       background:var(--card);
-      border:1px solid #e5e7eb;
-      border-radius:10px;
-      padding:16px 18px;
-      box-shadow:0 1px 3px rgba(15,23,42,.08);
+      border-radius:18px;
+      padding:18px 18px 20px;
+      box-shadow:var(--shadow-soft);
+      border:1px solid rgba(148,163,184,.4);
     }
-
-    .bullet-list{
-      margin-top:8px;
-      padding-left:20px;
-    }
-    .bullet-list li{margin:4px 0;}
 
     .repo-layout{
       display:grid;
-      grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+      grid-template-columns:minmax(0,1.2fr) minmax(0,1.05fr);
       gap:18px;
       align-items:flex-start;
+      margin-top:14px;
     }
-    .meta{font-size:13px;color:var(--muted);}
+
+    .meta{font-size:12px;color:var(--muted);}
     .small{font-size:13px;color:var(--muted);}
+
+    .meta-highlight{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:var(--accent-soft);
+      border:1px solid var(--accent-soft-border);
+      color:#991b1b;
+      font-size:11px;
+      margin-top:8px;
+    }
 
     .grid{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
       gap:12px;
+      margin-top:10px;
     }
-    .item-title{margin:0 0 4px;font-weight:600;}
-    .item-path{font-size:12px;color:var(--muted);}
+    .folder-card{
+      border-radius:14px;
+      padding:10px 11px 11px;
+      background:linear-gradient(135deg,#ffffff, #f9fafb);
+      border:1px solid rgba(209,213,219,.9);
+      box-shadow:0 10px 28px rgba(15,23,42,.12);
+      cursor:pointer;
+      transition:transform .1s ease,box-shadow .1s ease, border-color .1s ease;
+    }
+    .folder-card:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 38px rgba(15,23,42,.18);
+      border-color:#fecaca;
+    }
+    .folder-title{
+      font-weight:600;
+      margin-bottom:4px;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .folder-badge{
+      font-size:11px;
+      padding:1px 7px;
+      border-radius:999px;
+      color:#7f1d1d;
+      background:#fee2e2;
+      border:1px solid #fecaca;
+    }
+    .folder-path{
+      font-size:11px;
+      color:var(--muted);
+    }
 
     .btn{
-      display:inline-block;
-      margin-top:10px;
-      padding:7px 12px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-top:12px;
+      padding:8px 13px;
       border-radius:999px;
       background:var(--accent);
       color:white;
       font-size:13px;
       text-decoration:none;
+      border:none;
+      cursor:pointer;
+      box-shadow:0 10px 26px rgba(190,24,93,.55);
     }
-    .btn:hover{opacity:.9;}
+    .btn:hover{opacity:.94;}
 
     pre{
       white-space:pre-wrap;
-      background:#111827;
+      background:#020617;
       color:#e5e7eb;
       padding:10px;
-      border-radius:6px;
+      border-radius:8px;
       font-size:12px;
       overflow:auto;
     }
@@ -176,10 +296,16 @@
     .link-list{
       list-style:none;
       padding:0;
-      margin:8px 0 0;
+      margin:10px 0 0;
       font-size:14px;
     }
-    .link-list li{margin:3px 0;}
+    .link-list li{
+      margin:3px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+    }
 
     .link-button{
       background:none;
@@ -196,12 +322,73 @@
       text-decoration:underline;
     }
 
+    .chip{
+      font-size:11px;
+      padding:1px 7px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.6);
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .chip-lecture{border-color:#bfdbfe;color:#1d4ed8;background:#eff6ff;}
+    .chip-lab{border-color:#bbf7d0;color:#15803d;background:#ecfdf3;}
+    .chip-ex{border-color:#fde68a;color:#92400e;background:#fffbeb;}
+    .chip-group{border-color:#e5e7eb;color:#374151;background:#f9fafb;}
+    .chip-blog{border-color:#fecaca;color:#b91c1c;background:#fef2f2;}
+
+    /* Preview panel */
+    .preview-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:8px;
+      gap:8px;
+    }
+    .preview-title{
+      font-size:14px;
+      font-weight:600;
+      color:#0f172a;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .preview-title span{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:22px;
+      height:22px;
+      border-radius:999px;
+      background:#fee2e2;
+      color:#b91c1c;
+      font-size:12px;
+      font-weight:700;
+    }
+    .preview-sub{
+      font-size:11px;
+      color:var(--muted);
+    }
+    .preview-body{
+      border-radius:12px;
+      border:1px solid rgba(209,213,219,.9);
+      background:#f9fafb;
+      padding:10px 12px;
+      max-height:420px;
+      overflow:auto;
+    }
+
+    footer{
+      margin-top:32px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
     /* RIGHT CONTENTS COLUMN */
     .toc{
-      border-left:1px solid #e5e7eb;
-      padding:24px 18px;
+      border-left:1px solid rgba(209,213,219,.9);
+      padding:26px 18px 28px;
       font-size:13px;
-      background:#f9fafb;
+      background:linear-gradient(to bottom,#f9fafb,#f3f4f6);
       position:sticky;
       top:0;
       height:100vh;
@@ -209,9 +396,9 @@
     }
     .toc h3{
       margin-top:0;
-      font-size:14px;
+      font-size:13px;
       text-transform:uppercase;
-      letter-spacing:.08em;
+      letter-spacing:.16em;
       color:var(--muted);
     }
     .toc ul{
@@ -223,24 +410,20 @@
     .toc a{
       color:#111827;
       text-decoration:none;
+      font-size:13px;
     }
     .toc a:hover{text-decoration:underline;}
 
-    footer{
-      margin-top:32px;
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    @media (max-width:1024px){
+    @media (max-width:1160px){
       .layout{
-        grid-template-columns:220px minmax(0,1fr);
+        grid-template-columns:230px minmax(0,1fr);
       }
       .toc{display:none;}
     }
-    @media (max-width:768px){
+    @media (max-width:800px){
       .layout{
         grid-template-columns:1fr;
+        max-width:100%;
       }
       .sidebar{
         position:relative;
@@ -251,6 +434,12 @@
       }
       .sidebar-logo{flex:1;}
       .sidebar-sections{flex:1;}
+      main{
+        padding:20px 18px 26px;
+      }
+      .repo-layout{
+        grid-template-columns:1fr;
+      }
     }
   </style>
 </head>
@@ -264,84 +453,126 @@
            onerror="this.src='logo.png'">
       <div>
         <div class="sidebar-title">JFG Portfolio</div>
-        <div class="sidebar-subtitle">Deep Learning • Jupyter-style</div>
+        <div class="sidebar-subtitle">Deep Learning · Academic Work</div>
       </div>
     </div>
 
     <div class="sidebar-sections">
-      <div class="sidebar-section-title">This Page</div>
+      <div class="sidebar-section-title">Sections</div>
       <ul class="sidebar-nav">
-        <li><a href="#top">Overview</a></li>
-        <li><a href="#what-you-will-find">What you will find</a></li>
-        <li><a href="#repo-viewer">Live repo viewer</a></li>
-        <li><a href="#lectures">Lectures</a></li>
-        <li><a href="#labs">Labs</a></li>
-        <li><a href="#exercises">Exercises</a></li>
-        <li><a href="#group-activities">Group activities</a></li>
-        <li><a href="#blog">Blog posts</a></li>
-        <li><a href="#about">About this portfolio</a></li>
+        <li><a href="#top">Overview <span>intro</span></a></li>
+        <li><a href="#what-you-will-find">What you will find <span>map</span></a></li>
+        <li><a href="#repo-viewer">Live repo viewer <span>repo</span></a></li>
+        <li><a href="#lectures">Lectures <span>theory</span></a></li>
+        <li><a href="#labs">Labs <span>hands-on</span></a></li>
+        <li><a href="#exercises">Exercises <span>practice</span></a></li>
+        <li><a href="#group-activities">Group work <span>team</span></a></li>
+        <li><a href="#blog">Blog posts <span>reflection</span></a></li>
+        <li><a href="#about">About <span>details</span></a></li>
       </ul>
     </div>
   </aside>
 
   <!-- MAIN CONTENT -->
   <main id="top">
-    <span class="pill">Deep Learning Portfolio</span>
+    <div class="pill">
+      <span class="pill-dot"></span> Deep Learning Portfolio
+    </div>
     <h1>The Deep Learning Portfolio of Jezzel Faith Gier</h1>
     <p class="lead">
-      This page gives a structured, interactive overview of my work in deep learning.
-      It reads a public GitHub repo
-      (<a href="https://github.com/Jzelfthr/DEEP_LEARNING" target="_blank">DEEP_LEARNING</a>)
-      and surfaces lectures, labs, exercises, and reflections in a Jupyter-Book-style layout.
+      This site presents my work in deep learning as a structured, browsable portfolio.
+      All content is pulled live from the
+      <a href="https://github.com/Jzelfthr/DEEP_LEARNING" target="_blank">DEEP_LEARNING</a>
+      repository and rendered inside this page.
     </p>
+    <div class="hero-meta">
+      <span>Lectures · Labs · Exercises · Group Activities · Blog</span>
+      <span>Built from real notebooks and markdown files</span>
+    </div>
 
     <section id="what-you-will-find" class="section">
-      <h2>What You Will Find</h2>
-      <ul class="bullet-list">
-        <li><strong>Detailed project narratives</strong> – the <em>why</em> and <em>how</em> behind key notebooks and activities.</li>
-        <li><strong>Technical demonstrations</strong> – code, outputs, and visual results in an accessible format.</li>
-        <li><strong>Skills in action</strong> – practical use of core deep learning concepts and tools.</li>
+      <div class="section-header">
+        <div>
+          <h2>What you will find</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="section-tag">Overview</div>
+      </div>
+      <p class="small">
+        Use this portfolio to explore my progress through lectures, labs, and exercises.
+        Each item opens directly in the preview panel so you can read it without leaving the page.
+      </p>
+      <ul class="bullet-list small" style="margin-top:8px;">
+        <li><strong>Lectures</strong> – structured theory notes and explanations.</li>
+        <li><strong>Labs</strong> – experiments, model runs, and result analysis.</li>
+        <li><strong>Exercises</strong> – practice problems and worked solutions.</li>
+        <li><strong>Group activities</strong> – collaborative tasks and projects.</li>
+        <li><strong>Blog posts</strong> – short reflections and learning highlights.</li>
       </ul>
-      <p class="small">Use the navigation on the left or the contents panel on the right to jump to specific sections.</p>
     </section>
 
     <section id="repo-viewer" class="section">
-      <h2>Live repo viewer</h2>
+      <div class="section-header">
+        <div>
+          <h2>Live repo viewer</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="section-tag">GitHub-powered</div>
+      </div>
       <div class="repo-layout">
         <div class="card">
           <p class="small">
-            This viewer uses the GitHub REST API to list folders and preview files
-            from the <code>DEEP_LEARNING</code> repository. Click any folder card or item
-            to see a markdown/notebook preview inside this page.
+            The viewer below uses the GitHub API to list folders from the
+            <code>DEEP_LEARNING</code> repository. Click any folder or item to load a
+            preview of its content in the panel on the right.
           </p>
 
-          <div class="section">
-            <h3>Repository</h3>
-            <div id="repo-info" class="meta">Loading repository information…</div>
+          <div class="meta-highlight">
+            <span>●</span>
+            <span id="repo-info">Loading repository information…</span>
           </div>
 
-          <div class="section">
-            <h3>Top-level folders</h3>
+          <div class="section" style="margin-top:16px;">
+            <h3 style="font-size:15px;margin:0 0 4px;">Top-level folders</h3>
+            <p class="small" style="margin-top:2px;">These folders are read directly from the repo root.</p>
             <div id="folders" class="grid"></div>
           </div>
         </div>
 
         <div class="card">
-          <h3>Quick preview</h3>
-          <div id="preview" class="small">
-            Select a folder or item to see a README, intro, markdown file, or notebook summary.
+          <div class="preview-header">
+            <div>
+              <div class="preview-title">
+                <span>JP</span>
+                <div>
+                  <div id="preview-label">Portfolio preview</div>
+                  <div class="preview-sub" id="preview-path">Select any item to load it here.</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <a id="open-repo" class="btn"
-             href="https://github.com/Jzelfthr/DEEP_LEARNING" target="_blank">
+          <div class="preview-body">
+            <div id="preview" class="small">
+              Select a folder, lecture, lab, exercise, group activity, or blog post
+              to preview its markdown or notebook summary here.
+            </div>
+          </div>
+          <button class="btn" onclick="window.open('https://github.com/Jzelfthr/DEEP_LEARNING','_blank')">
             Open repository on GitHub
-          </a>
+          </button>
         </div>
       </div>
     </section>
 
     <section id="lectures" class="section">
-      <h2>Lectures</h2>
-      <p class="small">Auto-generated from the <code>lectures/</code> folder in the repository.</p>
+      <div class="section-header">
+        <div>
+          <h2>Lectures</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="section-tag">Theory</div>
+      </div>
+      <p class="small">Auto-generated from the <code>lectures/</code> folder.</p>
       <div class="card">
         <ul id="lectures-list" class="link-list">
           <li class="small">Loading lectures…</li>
@@ -350,8 +581,14 @@
     </section>
 
     <section id="labs" class="section">
-      <h2>Labs</h2>
-      <p class="small">Hands-on experiments from the <code>labs/</code> folder.</p>
+      <div class="section-header">
+        <div>
+          <h2>Labs</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="section-tag">Hands-on</div>
+      </div>
+      <p class="small">Experiments and model runs from the <code>labs/</code> folder.</p>
       <div class="card">
         <ul id="labs-list" class="link-list">
           <li class="small">Loading labs…</li>
@@ -360,7 +597,13 @@
     </section>
 
     <section id="exercises" class="section">
-      <h2>Exercises</h2>
+      <div class="section-header">
+        <div>
+          <h2>Exercises</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="section-tag">Practice</div>
+      </div>
       <p class="small">Practice problems and solutions from <code>exercises/</code>.</p>
       <div class="card">
         <ul id="ex-list" class="link-list">
@@ -370,8 +613,14 @@
     </section>
 
     <section id="group-activities" class="section">
-      <h2>Group activities</h2>
-      <p class="small">Collaborative work (if present) from <code>group-activities/</code>.</p>
+      <div class="section-header">
+        <div>
+          <h2>Group activities</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="section-tag">Collaboration</div>
+      </div>
+      <p class="small">Collaborative work from <code>group-activities/</code>.</p>
       <div class="card">
         <ul id="group-list" class="link-list">
           <li class="small">Loading group activities…</li>
@@ -380,7 +629,13 @@
     </section>
 
     <section id="blog" class="section">
-      <h2>Blog posts</h2>
+      <div class="section-header">
+        <div>
+          <h2>Blog posts</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="section-tag">Reflections</div>
+      </div>
       <p class="small">Short reflections and write-ups from the <code>Blog_Post/</code> folder.</p>
       <div class="card">
         <div id="blog-list" class="grid">
@@ -390,15 +645,23 @@
     </section>
 
     <section id="about" class="section card">
-      <h2>About this portfolio</h2>
+      <div class="section-header" style="margin-bottom:10px;">
+        <div>
+          <h2>About this portfolio</h2>
+          <div class="section-divider"></div>
+        </div>
+        <div class="section-tag">How it works</div>
+      </div>
       <p class="small">
-        This HTML page is completely static and works purely in the browser. When hosted on GitHub Pages,
-        it calls the public GitHub API to fetch directory listings and files from
-        <code>Jzelfthr/DEEP_LEARNING</code>. No server-side code or build step is required.
+        This page is a single static HTML file that runs entirely in the browser.
+        When hosted on GitHub Pages, it calls the public GitHub API to fetch directory
+        listings and files from <code>Jzelfthr/DEEP_LEARNING</code>. Markdown files
+        and notebook markdown cells are rendered directly into the preview panel.
       </p>
       <p class="small">
-        For notebooks, the viewer shows a summary of markdown cells inside the page and provides a link
-        to the full notebook on GitHub if you want to dive into the code.
+        This makes the portfolio easy to maintain: whenever the repository is updated
+        with new lectures, labs, or reflections, the site automatically reflects those
+        changes the next time it is loaded.
       </p>
     </section>
 
@@ -426,7 +689,6 @@
     return res.json();
   }
 
-  // Build right-hand contents
   function buildToc(folders){
     const toc = document.getElementById('toc-list');
     toc.innerHTML = '';
@@ -461,19 +723,18 @@
       renderFolders(folders);
       buildToc(folders);
 
-      if(folders.find(f => f.name === 'lectures')) loadFolderList('lectures','lectures-list');
+      if(folders.find(f => f.name === 'lectures')) loadFolderList('lectures','lectures-list', 'lecture');
       else document.getElementById('lectures-list').innerHTML = '<li class="small">No lectures folder found.</li>';
 
-      if(folders.find(f => f.name === 'labs')) loadFolderList('labs','labs-list');
+      if(folders.find(f => f.name === 'labs')) loadFolderList('labs','labs-list', 'lab');
       else document.getElementById('labs-list').innerHTML = '<li class="small">No labs folder found.</li>';
 
-      if(folders.find(f => f.name === 'exercises')) loadFolderList('exercises','ex-list');
+      if(folders.find(f => f.name === 'exercises')) loadFolderList('exercises','ex-list', 'exercise');
       else document.getElementById('ex-list').innerHTML = '<li class="small">No exercises folder found.</li>';
 
-      if(folders.find(f => f.name === 'group-activities')) loadFolderList('group-activities','group-list');
+      if(folders.find(f => f.name === 'group-activities')) loadFolderList('group-activities','group-list', 'group');
       else document.getElementById('group-list').innerHTML = '<li class="small">No group-activities folder found.</li>';
 
-      // last commit info
       const commits = await fetchJson(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=1`);
       document.getElementById('last-updated').innerText =
         `latest commit on ${new Date(commits[0].commit.author.date).toLocaleString()}`;
@@ -489,12 +750,14 @@
     el.innerHTML = '';
     folders.forEach(f => {
       const div = document.createElement('div');
-      div.className = 'card';
-      div.style.cursor = 'pointer';
+      div.className = 'folder-card';
       div.innerHTML = `
-        <div class="item-title">${f.name}</div>
-        <div class="item-path">${f.path}</div>
-        <div class="small">Click to explore this folder.</div>`;
+        <div class="folder-title">
+          <span>${f.name}</span>
+          <span class="folder-badge">folder</span>
+        </div>
+        <div class="folder-path">${f.path}</div>
+        <div class="small" style="margin-top:4px;">Click to preview a README or markdown file.</div>`;
       div.onclick = () => openFolder(f.path);
       el.appendChild(div);
     });
@@ -507,6 +770,9 @@
         list.find(x => /readme|intro/i.test(x.name)) ||
         list.find(x => /\.md$/i.test(x.name)) ||
         null;
+
+      document.getElementById('preview-label').textContent = path;
+      document.getElementById('preview-path').textContent = 'Folder preview';
 
       if(mdFile && mdFile.download_url){
         const res = await fetch(mdFile.download_url);
@@ -524,13 +790,16 @@
     }
   }
 
-  async function openFile(path){
+  async function openFile(path, label){
     try{
       const file = await fetchJson(`${apiBase}/${path}`);
       if(file.type !== 'file'){
         showPreview(`<p class="small">This is not a regular file.</p>`);
         return;
       }
+
+      document.getElementById('preview-label').textContent = label || file.name;
+      document.getElementById('preview-path').textContent = path;
 
       const lower = file.name.toLowerCase();
 
@@ -578,7 +847,7 @@
     }
   }
 
-  async function loadFolderList(folderName, containerId){
+  async function loadFolderList(folderName, containerId, kind){
     try{
       const list = await fetchJson(`${apiBase}/${folderName}`);
       const ul = document.getElementById(containerId);
@@ -588,8 +857,16 @@
         .forEach(item => {
           const li = document.createElement('li');
           const cleanName = item.name.replace(/\.(ipynb|md)$/,'');
-          li.innerHTML = `<button type="button" class="link-button">${cleanName}</button>`;
-          li.querySelector('button').onclick = () => openFile(`${folderName}/${item.name}`);
+          let chipClass = 'chip';
+          if(kind === 'lecture') chipClass += ' chip-lecture';
+          else if(kind === 'lab') chipClass += ' chip-lab';
+          else if(kind === 'exercise') chipClass += ' chip-ex';
+          else if(kind === 'group') chipClass += ' chip-group';
+
+          li.innerHTML = `
+            <button type="button" class="link-button">${cleanName}</button>
+            <span class="${chipClass}">${kind}</span>`;
+          li.querySelector('button').onclick = () => openFile(`${folderName}/${item.name}`, cleanName);
           ul.appendChild(li);
         });
       if(!ul.innerHTML){
@@ -631,14 +908,16 @@
       blogList.innerHTML = '';
       list.forEach(item => {
         const div = document.createElement('div');
-        div.className = 'card';
+        div.className = 'folder-card';
         const title = item.name.replace(/\.(md|ipynb)$/,'');
         div.innerHTML = `
-          <div class="item-title">${title}</div>
-          <div class="meta">${item.type}</div>
-          <p class="small">Click to preview inside this page.</p>`;
-        div.style.cursor = 'pointer';
-        div.onclick = () => openFile(`Blog_Post/${item.name}`);
+          <div class="folder-title">
+            <span>${title}</span>
+            <span class="chip chip-blog">blog</span>
+          </div>
+          <div class="folder-path">${item.name}</div>
+          <div class="small" style="margin-top:4px;">Click to preview inside this page.</div>`;
+        div.onclick = () => openFile(`Blog_Post/${item.name}`, title);
         blogList.appendChild(div);
       });
     }catch(e){
